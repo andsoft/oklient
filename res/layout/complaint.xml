@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent" android:background="#F0000000">
+    <TextView android:text="Complaint...." android:id="@+id/textView1" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/textView3" android:text="TextView" android:layout_below="@+id/textView2" android:layout_alignLeft="@+id/textView2" android:layout_marginTop="104dp"></TextView>
+    <EditText android:id="@+id/editText1" android:inputType="textMultiLine" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignTop="@+id/textView2" android:layout_alignLeft="@+id/checkBox1" android:layout_toLeftOf="@+id/button2" android:layout_above="@+id/editText2"></EditText>
+    <EditText android:id="@+id/editText2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignTop="@+id/textView3" android:layout_alignLeft="@+id/editText1" android:layout_toLeftOf="@+id/button2">
+        <requestFocus></requestFocus>
+    </EditText>
+    <TextView android:text="TextView" android:id="@+id/textView2" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_below="@+id/textView1" android:layout_alignParentLeft="true" android:layout_marginTop="19dp"></TextView>
+    <CheckBox android:id="@+id/checkBox1" android:layout_height="wrap_content" android:text="CheckBox" android:layout_width="wrap_content" android:layout_centerVertical="true" android:layout_centerHorizontal="true"></CheckBox>
+    <Button android:id="@+id/button2" android:text="Cancel" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_below="@+id/checkBox1" android:layout_alignParentRight="true"></Button>
+    <Button android:id="@+id/button1" android:text="OK" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_alignBaseline="@+id/button2" android:layout_alignBottom="@+id/button2" android:layout_alignParentLeft="true"></Button>
+    
+</RelativeLayout>

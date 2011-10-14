@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+<RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:id="@+id/relativeLayout3">
+	<Button android:id="@+id/button2" android:text="Complaint" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentTop="true" android:layout_alignParentRight="true"></Button>
+	<ImageView android:layout_width="wrap_content" android:src="@drawable/icon" android:layout_height="wrap_content" android:id="@+id/imageView2" android:layout_alignParentTop="true" android:layout_alignParentLeft="true"></ImageView>
+</RelativeLayout>
+<RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_alignParentBottom="true" android:layout_alignParentLeft="true" android:id="@+id/relativeLayout1">
+    <Button android:id="@+id/button1" android:layout_alignParentTop="true" android:text="Help" android:layout_width="wrap_content" android:layout_alignParentLeft="true" android:layout_height="wrap_content"></Button>
+    <ImageView android:layout_width="wrap_content" android:layout_alignParentTop="true" android:src="@drawable/icon" android:layout_height="wrap_content" android:id="@+id/imageView1" android:layout_alignParentRight="true"></ImageView>
+    <Button android:id="@+id/button3" android:layout_alignParentTop="true" android:text="Quit" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerHorizontal="true"></Button>
+</RelativeLayout>
+<RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_above="@+id/relativeLayout1" android:layout_alignParentLeft="true" android:id="@+id/relativeLayout2" android:layout_marginBottom="5.0dp" android:layout_margin="10.0dp">
+    <ProgressBar android:layout_width="100dip" android:layout_height="wrap_content" android:id="@+id/progressBar1" style="@android:style/Widget.ProgressBar.Horizontal" android:layout_centerHorizontal="true" android:layout_centerVertical="true"></ProgressBar>
+</RelativeLayout>
+<RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_above="@+id/relativeLayout2" android:layout_alignParentLeft="true" android:id="@+id/relativeLayout5" android:layout_marginBottom="10.0dp" android:layout_margin="0.0dp">
+    <Button android:id="@+id/nextButton" android:layout_alignParentTop="true" android:text="Next" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentRight="true"></Button>
+    <Button android:id="@+id/previousButton" android:layout_alignParentTop="true" android:text="Prev" android:layout_width="wrap_content" android:layout_alignParentLeft="true" android:layout_height="wrap_content"></Button>
+</RelativeLayout>
+<RelativeLayout android:id="@+id/relativeLayout4" android:layout_width="fill_parent" android:layout_below="@+id/relativeLayout3" android:layout_alignParentLeft="true" android:layout_height="match_parent" android:layout_above="@+id/relativeLayout5">
+    <ViewFlipper android:layout_width="fill_parent" android:layout_alignParentLeft="true" android:id="@+id/viewFlipper" android:layout_centerVertical="true" android:layout_height="match_parent"></ViewFlipper>
+</RelativeLayout>
+</RelativeLayout>
