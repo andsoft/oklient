@@ -420,16 +420,20 @@ public class QuizLayout extends LinearLayout {
 		LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		inflater.inflate(R.layout.quiz, this);
 
+		this.setBackgroundResource(R.drawable.background);
 
 		mProgress = (ProgressBar) findViewById(R.id.progressBar1);
 
 		mProgress.setMax(60);
+		mProgress.setProgressDrawable(getResources().getDrawable(R.drawable.progress_layers)); 
 		
 		viewFlipper = (ViewFlipper)findViewById(R.id.viewFlipper);
 
 		viewFlipper.setInAnimation(/*OklientActivity.this*/_context, R.anim.view_transition_in_left);
 		viewFlipper.setOutAnimation(/*OklientActivity.this*/_context, R.anim.view_transition_out_left);
 		
+		View bottom = findViewById(R.id.relativeLayout1);
+		bottom.setBackgroundResource(R.drawable.down_panel_background);
 		
 		LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT,
 				LayoutParams.WRAP_CONTENT);
@@ -439,6 +443,8 @@ public class QuizLayout extends LinearLayout {
 		viewFlipper.addView(empty_view);
 */
 		Button nextButton = (Button) this.findViewById(R.id.nextButton);
+		nextButton.setBackgroundResource(R.drawable.forward_button_layers);
+		nextButton.setText("");
 		nextButton.setOnClickListener(new OnClickListener()
 		{
 
@@ -453,6 +459,8 @@ public class QuizLayout extends LinearLayout {
 		});
 
 		Button previousButton = (Button) this.findViewById(R.id.previousButton);
+		previousButton.setBackgroundResource(R.drawable.back_button_layers);
+		previousButton.setText("");
 		previousButton.setOnClickListener(new OnClickListener()
 		{
 
@@ -469,8 +477,10 @@ public class QuizLayout extends LinearLayout {
 
 		});
 
-		final Button button = (Button) findViewById(R.id.button1);
-		button.setOnClickListener(new OnClickListener()
+		final Button infoButton = (Button) findViewById(R.id.button1);
+		infoButton.setBackgroundResource(R.drawable.info_button_layers);
+		infoButton.setText("");
+		infoButton.setOnClickListener(new OnClickListener()
 		{
 
 			//@Override
@@ -495,8 +505,10 @@ public class QuizLayout extends LinearLayout {
 
 		});
 
-		final Button button2 = (Button) findViewById(R.id.button2);
-		button2.setOnClickListener(new OnClickListener()
+		final Button complaintButton = (Button) findViewById(R.id.button2);
+		complaintButton.setBackgroundResource(R.drawable.complaint_button_layers);
+		complaintButton.setText("");
+		complaintButton.setOnClickListener(new OnClickListener()
 		{
 
 			//@Override
@@ -547,6 +559,8 @@ public class QuizLayout extends LinearLayout {
 		});
 		
 		Button quitButton = (Button) this.findViewById(R.id.button3);
+		quitButton.setBackgroundResource(R.drawable.stop_button_layers);
+		quitButton.setText("");
 		quitButton.setOnClickListener(new OnClickListener()
 		{
 

@@ -17,26 +17,52 @@ public final class R {
     public static final class attr {
     }
     public static final class drawable {
-        public static final int icon=0x7f020000;
+        public static final int back_button=0x7f020000;
+        public static final int back_button_layers=0x7f020001;
+        public static final int back_button_pressed=0x7f020002;
+        public static final int background=0x7f020003;
+        public static final int cancel=0x7f020004;
+        public static final int complaint_button=0x7f020005;
+        public static final int complaint_button_layers=0x7f020006;
+        public static final int complaint_button_pressed=0x7f020007;
+        public static final int down_panel_background=0x7f020008;
+        public static final int forward_button=0x7f020009;
+        public static final int forward_button_layers=0x7f02000a;
+        public static final int forward_button_pressed=0x7f02000b;
+        public static final int further=0x7f02000c;
+        public static final int icon=0x7f02000d;
+        public static final int info_button=0x7f02000e;
+        public static final int info_button_layers=0x7f02000f;
+        public static final int info_button_pressed=0x7f020010;
+        public static final int oklient=0x7f020011;
+        public static final int progress_layers=0x7f020012;
+        public static final int status_empty=0x7f020013;
+        public static final int status_empty_part1=0x7f020014;
+        public static final int status_full=0x7f020015;
+        public static final int status_only_progress_bar=0x7f020016;
+        public static final int stop_button=0x7f020017;
+        public static final int stop_button_layers=0x7f020018;
+        public static final int stop_button_pressed=0x7f020019;
     }
     public static final class id {
         public static final int LinearLayout1=0x7f07000f;
+        public static final int SecondaryProgress=0x01010000;
         public static final int button1=0x7f070007;
         public static final int button2=0x7f070005;
-        public static final int button3=0x7f070014;
+        public static final int button3=0x7f070011;
         public static final int checkBox1=0x7f070004;
         public static final int client_logo=0x7f07000c;
         public static final int editText1=0x7f070003;
         public static final int editText2=0x7f070006;
-        public static final int imageView1=0x7f070013;
-        public static final int imageView2=0x7f070011;
+        public static final int imageView1=0x7f070014;
+        public static final int imageView2=0x7f070012;
         public static final int linearLayout1=0x7f07000a;
         public static final int main_logo=0x7f07000b;
         public static final int nextButton=0x7f070018;
         public static final int oklient_logo=0x7f07000d;
         public static final int previousButton=0x7f070019;
         public static final int progressBar1=0x7f070016;
-        public static final int relativeLayout1=0x7f070012;
+        public static final int relativeLayout1=0x7f070013;
         public static final int relativeLayout2=0x7f070015;
         public static final int relativeLayout3=0x7f070010;
         public static final int relativeLayout4=0x7f07001a;
