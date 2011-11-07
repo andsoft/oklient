@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<questionnaire scheme="light_blue_1280x1024" accepts_complaints="true" id="4" logo="" welcome_screen="">
+  <screen hint="Да, я очень доволен. Вы не представляете как" title="Довольны ли вы посещением нашего магазина?" id="55">
+    <question title="Довольны ли вы посещением нашего заведения?" id="1" type="single_choice" style="special_meaning">
+      <option title="точно нет" meaning="definitely_not" id="5"/>
+      <option title="Скорее нет" meaning="probably_not" id="6"/>
+      <option title="Скорее да" meaning="probably_yes" id="7"/>
+      <option title="Точно да" meaning="definitely_yes" id="8"/>
+    </question>
+  </screen>
+  <screen hint="" title="Множественный выбор" id="28">
+    <question title="Вы поставили низкую оценку уровню нашего обслуживания. Почему?" id="31" type="multiple_choice" style="">
+      <option title="Продавец-консультант плохо разбирается в том, что продает" meaning="" id="32"/>
+      <option title="Мне пришлось долго ждать, когда мне наконец-то помогли" meaning="" id="33"/>
+      <option title="другое" meaning="string" id="35"/>
+    </question>
+    <condition option_id="5"/>
+    <condition option_id="6"/>
+  </screen>
+  <screen hint="подсказка здесь тоже достаточно длинная, чтобы поместиться на две строчки" title="Здесь больше строчек вверху, однако меньше больков вопросов" id="41">
+    <question title="Удалить" id="17" type="multiple_choice" style="">
+      <option title="Официант игнорировал просьбы" meaning="" id="9"/>
+      <option title="Официант плохо ориентировался в меню и не смог помочь с выбором" meaning="" id="10"/>
+      <option title="Свой вариант" meaning="string" id="19"/>
+      <option title="Пятый вариант ответа" meaning="" id="69"/>
+      <option title="Официант невнимателен и неаккуратен " meaning="" id="11"/>
+    </question>
+    <condition option_id="7"/>
+    <condition option_id="8"/>
+  </screen>
+  <screen hint="Да, я очень доволен. Вы не представляете как" title="Этот вопрос должен появится при отметке 1-ой птички" id="56">
+    <condition option_id="32"/>
+  </screen>
+  <screen hint="" title="Этот экран появляется при отметке 2-ой птички" id="57">
+    <condition option_id="33"/>
+  </screen>
+  <screen hint="" title="Этот экран появляется при отметке 3-ей птички" id="58">
+    <condition option_id="69"/>
+  </screen>
+  <screen hint="" title="Информация о вас" id="29">
+    <question range_max="100" title="Ваш возраст" range_step="1" range_min="10" id="3" type="range" style="">
+    </question>
+    <question range_max="5" title="Сколько раз в месяц вы совершаете у нас покупки?" range_step="1" range_min="0" id="9" type="range" style="">
+    </question>
+  </screen>
+</questionnaire>

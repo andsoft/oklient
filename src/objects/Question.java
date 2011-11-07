@@ -18,7 +18,10 @@ public class Question {
 	
 	public List<Option> options;
 	
+	public List<Answer> answers;
+	
 	public Question(){
 		options=new ArrayList<Option>();
+		answers=new ArrayList<Answer>();
     }
 }

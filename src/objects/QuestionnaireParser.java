@@ -108,8 +108,8 @@ public class QuestionnaireParser {
         	
         	public void start(Attributes attributes){
                 currentCondition=new String();
-                currentQuestionnaire.addCondition(currentCondition);
                 currentCondition= attributes.getValue("option_id");
+                currentQuestionnaire.addCondition(currentCondition);
             }
         	
         	public void end() {

@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<questionnaire scheme="light_blue_1280x1024" accepts_complaints="true" id="53" logo="http://s3.amazonaws.com/oklient/logos/9/normal.png?1301655009" welcome_screen="http://s3.amazonaws.com/oklient/welcome_screens/53/original.jpg?1315421543">
+  <screen hint="Выберите один из вариантов" title="Довольны ли вы посещением нашего ресторана?" id="536">
+    <question title="Довольны ли вы посещением нашего ресторана?" id="1" type="single_choice" style="special_meaning">
+      <option title="точно нет" meaning="definitely_not" id="5"/>
+      <option title="Скорее нет" meaning="probably_not" id="6"/>
+      <option title="Скорее да" meaning="probably_yes" id="7"/>
+      <option title="Точно да" meaning="definitely_yes" id="8"/>
+    </question>
+  </screen>
+
+  <screen hint="Выберите наиболее подходящие варианты ответа" title="С чем связано ваше недовольство?" id="537">
+    <question title="Чем вы остались недовольны?" id="34" type="multiple_choice" style="">
+      <option title="Кухня" meaning="" id="269"/>
+      <option title="Бар" meaning="" id="270"/>
+      <option title="Обслуживание" meaning="" id="47"/>
+    </question>
+    <condition option_id="5"/>
+    <condition option_id="6"/>
+  </screen>
+
+  <screen hint="" title="Что нужно улучшить, чтобы в следующий раз вы нажали Точно ДА?" id="538">
+    <question title="Посоветуйте, что нам нужно улучшить, чтобы в следующий раз вы нажали �Точно ДА�?" id="40" type="multiple_choice" style="">
+      <option title="Кухню" meaning="" id="271"/>
+      <option title="Бар" meaning="" id="272"/>
+      <option title="Обслуживание" meaning="" id="70"/>
+    </question>
+    <condition option_id="7"/>
+  </screen>
+  <screen hint="Выберите наиболее подходящие варианты ответа или введите свой" title="Как можно улучшить качество блюд в нашем ресторане?" id="539">
+
+    <question title="Как можно улучшить кухню нашего ресторана?" id="84" type="multiple_choice" style="">
+      <option title="Блюда должны стать еще вкуснее" meaning="" id="287"/>
+      <option title="Больше уделяйте внимания внешнему виду блюд" meaning="" id="288"/>
+      <option title="Повар должен четче следовать рецептуре приготовления" meaning="" id="289"/>
+      <option title="Расширьте меню" meaning="" id="290"/>
+      <option title="Свой вариант" meaning="string" id="291"/>
+    </question>
+    <condition option_id="271"/>
+  </screen>
+
+  <screen hint="Укажите названия блюд и напитков, которые вы хотели бы видеть в нашем меню" title="В меню хотелось бы видеть еще..." id="540">
+    <question title="Такие блюда" id="89" type="string" style="">
+    </question>
+    <question title="Такие напитки" id="90" type="string" style="">
+    </question>
+    <condition option_id="290"/>
+  </screen>
+  <screen hint="Выберите наиболее подходящие варианты ответа или введите свой" title="Что нам нужно изменить в работе бара?" id="541">
+    <question title="Что нам нужно изменить в работе бара?" id="86" type="multiple_choice" style="">
+
+      <option title="Напиток должен соответствовать классической рецептуре" meaning="" id="292"/>
+      <option title="Подтянуть внешний вид напитка и его подачу" meaning="" id="293"/>
+      <option title="Расширить ассортимент напитков" meaning="" id="294"/>
+      <option title="Свой вариант" meaning="string" id="296"/>
+    </question>
+    <condition option_id="272"/>
+  </screen>
+  <screen hint="Введите названия напитков, которые вы хотели бы видеть в нашем меню" title="В меню хотелось бы видеть еще..." id="542">
+    <question title="Такие коктейли" id="91" type="string" style="">
+
+    </question>
+    <question title="Такие крепкие напитки" id="93" type="string" style="">
+    </question>
+    <question title="Такие сорта пива" id="92" type="string" style="">
+    </question>
+    <question title="Такие виды кофе/чая" id="94" type="string" style="">
+    </question>
+    <condition option_id="294"/>
+  </screen>
+
+  <screen hint="Выберите наиболее подходящие варианты ответа или введите свой" title="Что нам нужно поменять в обслуживании?" id="543">
+    <question title="Что нам нужно поменять в обслуживании?" id="87" type="multiple_choice" style="">
+      <option title="Официанты должны молниеносно принимать заказ и приносить блюда" meaning="" id="297"/>
+      <option title="Официанты должны стать приветливее и чаще подходить к гостям" meaning="" id="298"/>
+      <option title="Официанты должны помогать с выбором блюд" meaning="" id="299"/>
+      <option title="Свой вариант" meaning="string" id="300"/>
+    </question>
+    <condition option_id="70"/>
+  </screen>
+
+  <screen hint="Выберите наиболее подходящие варианты ответа или введите свой" title="Почему вам не понравилась наша кухня?" id="544">
+    <question title="Почему вам не понравилась наша кухня?" id="81" type="multiple_choice" style="">
+      <option title="Было невкусно " meaning="" id="273"/>
+      <option title="Блюдо выглядело не очень аппетитно" meaning="" id="274"/>
+      <option title="Меня не удовлетворило ваше меню" meaning="" id="275"/>
+      <option title="Свой вариант" meaning="string" id="276"/>
+    </question>
+    <condition option_id="269"/>
+  </screen>
+
+  <screen hint="Укажите названия блюд и напитков, которые вы хотели бы видеть в нашем меню" title="В меню хотелось бы видеть еще..." id="545">
+    <question title="Такие блюда" id="89" type="string" style="">
+    </question>
+    <question title="Такие напитки" id="90" type="string" style="">
+    </question>
+    <condition option_id="275"/>
+  </screen>
+  <screen hint="Выберите наиболее подходящие варианты ответа или введите свой" title="Почему вам не понравился наш бар?" id="546">
+    <question title="Почему вам не понравился наш бар?" id="82" type="multiple_choice" style="">
+
+      <option title="Бармен не выдержал оригинальную рецептуру приготовления" meaning="" id="278"/>
+      <option title="Напиток выглядел так, что его расхотелось пить" meaning="" id="279"/>
+      <option title="В меню бара нет того, чего мне хотелось" meaning="" id="280"/>
+      <option title="Свой вариант" meaning="string" id="281"/>
+    </question>
+    <condition option_id="270"/>
+  </screen>
+  <screen hint="Укажите названия напитков, которые вы хотели бы видеть в нашем меню" title="В меню хотелось бы видеть еще..." id="547">
+    <question title="Такие коктейли" id="91" type="string" style="">
+
+    </question>
+    <question title="Такие сорта пива" id="92" type="string" style="">
+    </question>
+    <question title="Такие крепкие напитки" id="93" type="string" style="">
+    </question>
+    <question title="Такие виды кофе/чая" id="94" type="string" style="">
+    </question>
+    <condition option_id="280"/>
+  </screen>
+
+  <screen hint="Выберите наиболее подходящие варианты ответа или введите свой" title="Почему вас не удовлетворило обслуживание?" id="548">
+    <question title="Почему вас не удовлетворило обслуживание?" id="83" type="multiple_choice" style="">
+      <option title="Очень медленно: долго приходится ждать официанта и заказа " meaning="" id="282"/>
+      <option title="Официанты не очень уж приветливы" meaning="" id="283"/>
+      <option title="Официант плохо ориентируется в меню и не может помочь с выбором" meaning="" id="284"/>
+      <option title="Столик был не убран" meaning="" id="285"/>
+      <option title="Свой вариант" meaning="string" id="286"/>
+    </question>
+    <condition option_id="47"/>
+
+  </screen>
+  <screen hint="Выберите наиболее подходящие варианты ответа или введите свой" title="Какую музыку вы хотели бы слушать?" id="549">
+    <question title="Музыку каких направлений вы хотели бы слышать в нашем ресторане почаще?" id="62" type="multiple_choice" style="">
+      <option title="Французский шансон" meaning="" id="183"/>
+      <option title="Джаз, блюз, соул" meaning="" id="182"/>
+      <option title="Кавер-группы (хиты от 60-х гг. до наших дней)" meaning="" id="184"/>
+      <option title="Пускай играет фоновая" meaning="" id="301"/>
+      <option title="Свой вариант" meaning="string" id="185"/>
+    </question>
+
+  </screen>
+  <screen hint="Мы ненавидим СПАМ и не будем передавать ваши личные данные третьим лицам" title="Эта информация нужна, чтобы сообщить вам о результатах розыгрыша ужина" id="550">
+    <question title="Имя" id="61" type="string" style="">
+    </question>
+    <question title="Телефон или e-mail " keyboard="english" id="8" type="string" style="">
+    </question>
+  </screen>
+</questionnaire>

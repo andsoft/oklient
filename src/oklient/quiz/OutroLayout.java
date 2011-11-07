@@ -1,11 +1,12 @@
 package oklient.quiz;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.ViewFlipper;
 
 public class OutroLayout extends LinearLayout {
@@ -21,7 +22,15 @@ final OklientActivity parent;
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.outro, this);
         
+        this.setBackgroundResource(R.drawable.background);
+        
+        TextView text=(TextView) this.findViewById(R.id.textView1);
+        text.setTextSize(24);
+		text.setTextColor(Color.BLACK);
+        
         final Button button = (Button) findViewById(R.id.button1);
+        button.setBackgroundResource(R.drawable.small_blue_button_layers);
+        button.setTextColor(Color.WHITE);
         button.setOnClickListener(new OnClickListener()
 		{
 

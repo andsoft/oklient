@@ -1,6 +1,9 @@
 package objects;
 
+import java.io.BufferedInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +20,10 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
+import org.apache.http.util.ByteArrayBuffer;
 import org.apache.http.util.EntityUtils;
+
+import android.content.Context;
 
 public class OklientAPI {
 	
@@ -26,7 +32,7 @@ public class OklientAPI {
 	final String strRegURL=strServer+"/system/devices";
 	final String strGetQuestURL=strRegURL+"/"+strDeviceId+"/questionnaire.xml";
 
-	String xml;
+	public String xml;
 	
 	final HttpClient httpclient = new DefaultHttpClient();
 	
@@ -114,5 +120,49 @@ public class OklientAPI {
         } catch (IOException e) {
             // TODO Auto-generated catch block
         } 		
+	}
+	
+	public InputStream LoadFile(String url, String file){
+		//HttpClient httpclient = new DefaultHttpClient(); 
+		HttpGet httpget = new HttpGet(url);
+
+		try {
+
+			// Execute HTTP Get Request
+			HttpResponse response = httpclient.execute(httpget);
+			StatusLine sl=response.getStatusLine();
+
+			if(sl.getStatusCode()!=200){
+				// TODO handle error
+			}
+
+			HttpEntity httpEntity = response.getEntity();
+	
+			InputStream is=httpEntity.getContent();
+			BufferedInputStream bis = new BufferedInputStream(is);
+			 
+             /*
+              * Read bytes to the Buffer until there is nothing more to read(-1).
+              */
+             ByteArrayBuffer baf = new ByteArrayBuffer(50);
+             int current = 0;
+             while ((current = bis.read()) != -1) {
+                     baf.append((byte) current);
+             }
+
+             /* Convert the Bytes read to a String. */
+             FileOutputStream fos = new FileOutputStream(file);
+             fos.write(baf.toByteArray());
+             fos.close();
+			
+			return is;
+
+		} catch (ClientProtocolException e) {
+			// TODO Auto-generated catch block
+			return null;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			return null;
+		}
 	}
 }

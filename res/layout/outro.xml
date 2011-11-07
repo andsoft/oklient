@@ -4,7 +4,7 @@
   android:orientation="vertical"
   android:layout_width="match_parent"
   android:layout_height="match_parent">
-    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/textView1" android:text="Outro view \nThank you" android:layout_centerVertical="true" android:layout_centerHorizontal="true"></TextView>
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/textView1" android:text="Thank you for reply!\n" android:layout_centerVertical="true" android:layout_centerHorizontal="true"></TextView>
     <Button android:id="@+id/button1" android:text="Close" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_below="@+id/textView1" android:layout_centerHorizontal="true"></Button>
     
 </RelativeLayout>

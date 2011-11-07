@@ -37,7 +37,8 @@ public class TextProgressBar extends ProgressBar {
     protected synchronized void onDraw(Canvas canvas) {  
         // First draw the regular progress bar, then custom draw our text  
         super.onDraw(canvas);  
-        Rect bounds = new Rect();  
+        Rect bounds = new Rect(); 
+        textPaint.setTextSize(30);
         textPaint.getTextBounds(text, 0, text.length(), bounds);  
         int x = getWidth() / 2 - bounds.centerX();  
         int y = getHeight() / 2 - bounds.centerY();  
