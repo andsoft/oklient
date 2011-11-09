@@ -304,7 +304,7 @@ public class QuizLayout extends LinearLayout {
 				dialog.show(); 
 				 */
 
-				if(true)return;//TODO
+				//if(true)return;//TODO
 				LinearLayout q1 = new LinearLayout(getContext());
 				q1.setOrientation(LinearLayout.HORIZONTAL);
 
@@ -312,9 +312,9 @@ public class QuizLayout extends LinearLayout {
 				LayoutParams params2 = new LayoutParams(LayoutParams.WRAP_CONTENT,
 						LayoutParams.WRAP_CONTENT);
 
+				//Theme.NoTitleBar.Fullscreen
 
-
-				Dialog dialog = new Dialog(parent/*, android.R.style.Theme_Translucent_NoTitleBar/*, R.style.popupStyle*/); 
+				Dialog dialog = new Dialog(parent, android.R.style.Theme_Translucent_NoTitleBar_Fullscreen/*, R.style.popupStyle*/); 
 /*
 				LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -330,7 +330,8 @@ public class QuizLayout extends LinearLayout {
 				dialog.setContentView(q1);
 */
 				dialog.setContentView(R.layout.complaint);
-				dialog.getWindow().setLayout(LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT);
+				dialog.getWindow().setBackgroundDrawableResource(R.drawable.background_complaint);
+				//dialog.getWindow().setLayout(LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT);
 				dialog.show(); 
 				//*/
 				//final ViewFlipper viewFlipper = (ViewFlipper)parent.findViewById(R.id.viewFlipper);
