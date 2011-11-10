@@ -11,11 +11,13 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -314,7 +316,7 @@ public class QuizLayout extends LinearLayout {
 
 				//Theme.NoTitleBar.Fullscreen
 
-				Dialog dialog = new Dialog(parent, android.R.style.Theme_Translucent_NoTitleBar_Fullscreen/*, R.style.popupStyle*/); 
+				Dialog dialog = new Dialog(parent, android.R.style.Theme_NoTitleBar_Fullscreen/*, R.style.popupStyle*/); 
 /*
 				LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -330,8 +332,17 @@ public class QuizLayout extends LinearLayout {
 				dialog.setContentView(q1);
 */
 				dialog.setContentView(R.layout.complaint);
-				dialog.getWindow().setBackgroundDrawableResource(R.drawable.background_complaint);
+				Drawable drawable = getResources().getDrawable(R.drawable.background_complaint);
+				drawable.setAlpha(240);
+				dialog.getWindow().setBackgroundDrawable(drawable);
+				//dialog.getWindow().setBackgroundDrawableResource(R.drawable.background_complaint);
 				//dialog.getWindow().setLayout(LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT);
+				
+				WindowManager.LayoutParams lp = dialog.getWindow().getAttributes();  
+				lp.dimAmount=0.5f;  
+				dialog.getWindow().setAttributes(lp); 
+				dialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+				
 				dialog.show(); 
 				//*/
 				//final ViewFlipper viewFlipper = (ViewFlipper)parent.findViewById(R.id.viewFlipper);
