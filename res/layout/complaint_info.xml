@@ -4,20 +4,51 @@
   android:orientation="vertical"
   android:layout_width="match_parent"
   android:layout_height="match_parent"  android:stretchColumns="1">
-    <TextView android:layout_width="wrap_content" android:text="TextView Provide your contact information to send a reply" android:gravity="fill_horizontal|center_horizontal" android:id="@+id/textView3" android:layout_height="wrap_content"></TextView>
-    <TableRow android:id="@+id/tableRow1" android:layout_width="wrap_content" android:layout_height="wrap_content">
-        <TextView android:layout_width="wrap_content" android:text="TextView" android:id="@+id/textView1" android:layout_height="wrap_content"></TextView>
-        <EditText android:id="@+id/editText1" android:layout_width="wrap_content" android:layout_height="wrap_content">
-            <requestFocus></requestFocus>
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Large Text"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TableRow
+        android:id="@+id/tableRow1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView" />
+
+        <EditText
+            android:id="@+id/editText1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <requestFocus />
         </EditText>
+
     </TableRow>
-    <TableRow android:id="@+id/tableRow2" android:layout_width="wrap_content" android:layout_height="wrap_content">
-        <TextView android:layout_width="wrap_content" android:text="TextView" android:id="@+id/textView2" android:layout_height="wrap_content"></TextView>
-        <EditText android:id="@+id/editText2" android:layout_width="wrap_content" android:layout_height="wrap_content"></EditText>
+
+    <TableRow
+        android:id="@+id/tableRow2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView" />
+
+        <EditText
+            android:id="@+id/editText2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
     </TableRow>
-    <LinearLayout android:id="@+id/linearLayout1" android:layout_width="wrap_content" android:layout_height="wrap_content">
-        <Button android:text="Cancel" android:id="@+id/button1" android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
-        <Button android:layout_width="wrap_content" android:id="@+id/button2" android:text="OK" android:layout_height="wrap_content"></Button>
-    </LinearLayout>
     
 </TableLayout>
