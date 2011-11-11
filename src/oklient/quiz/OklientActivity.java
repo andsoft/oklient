@@ -4,8 +4,10 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import objects.OklientAPI;
+import objects.Question;
 import objects.Questionnaire;
 import objects.QuestionnaireParser;
+import objects.Screen;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -18,6 +20,7 @@ public class OklientActivity extends Activity {
 	 OutroLayout outro_view;
 	 
 	 OklientAPI api=new OklientAPI();
+	 Questionnaire complaint=new Questionnaire();
 	 Questionnaire q=new Questionnaire();
 	 QuestionnaireParser qp=new QuestionnaireParser("http://oklient-dev.heroku.com/system/devices/andreev_123/questionnaire.xml");
 	 Bitmap bmImg;
@@ -59,7 +62,77 @@ api.UpdateQuestionnaire();
             throw new RuntimeException(e);
         } 
 	*/	
-		
+// TODO put this to assets and load
+Screen scr=new Screen();
+scr.title="Книга жалоб и предложений";
+scr.hint="";
+scr.id="1";
+
+complaint.addScreen(scr);
+
+Question quest=new Question();
+quest.title= "Опишите жалобу или предложение:";
+quest.id= "1";
+quest.type= "string";
+quest.style= "";
+quest.keyboard= ""; // todo
+complaint.addQuestion(quest);
+
+Question quest_2=new Question();
+quest_2.title= "Кратко озаглавьте, пожалуйста:";
+quest_2.id= "2";
+quest_2.type= "string";
+quest_2.style= "";
+quest_2.keyboard= ""; // todo
+complaint.addQuestion(quest_2);
+
+Question quest_3=new Question();
+quest_3.title= "Я хочу получить ответ на свою жалобу/предложение";
+quest_3.id= "3";
+quest_3.type= "confirmation";
+quest_3.style= "";
+quest_3.keyboard= ""; // todo
+complaint.addQuestion(quest_3);
+
+
+Screen scr2=new Screen();
+scr2.title="Книга жалоб и предложений";
+scr2.hint="complaint hint2";
+scr2.id="2";
+
+complaint.addScreen(scr2);
+
+Question quest2=new Question();
+quest2.title= "Ваше имя:";
+quest2.id= "2";
+quest2.type= "string";
+quest2.style= "";
+quest2.keyboard= ""; // todo
+complaint.addQuestion(quest2);
+
+Question quest2_1=new Question();
+quest2_1.title= "Телефон или e-mail:";
+quest2_1.id= "2";
+quest2_1.type= "string";
+quest2_1.style= "";
+quest2_1.keyboard= ""; // todo
+complaint.addQuestion(quest2_1);
+
+Screen scr3=new Screen();
+scr3.title="Спасибо!";
+scr3.hint="complaint hint3";
+scr3.id="3";
+
+complaint.addScreen(scr3);
+
+Question quest3=new Question();
+quest3.title= "В ближайшее время информация будет рассмотрена руководством";
+quest3.id= "3";
+quest3.type= "info"; // internal type
+quest3.style= "";
+quest3.keyboard= ""; // todo
+complaint.addQuestion(quest3);
+///////////////////////////////////////
 
 q=qp.parse(api.xml);
 String imagePath = getFilesDir() + "/" + "logo";

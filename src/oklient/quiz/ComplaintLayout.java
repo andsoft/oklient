@@ -131,6 +131,8 @@ public class ComplaintLayout extends LinearLayout {
 	}
 	
 	private void showPrevScreen() {
+		viewFlipper.setInAnimation(getContext(), R.anim.view_transition_in_right);
+		viewFlipper.setOutAnimation(getContext(), R.anim.view_transition_out_right);
 		viewFlipper.showPrevious();
 /*		View current_view=viewFlipper.getCurrentView();
 		
@@ -160,6 +162,8 @@ public class ComplaintLayout extends LinearLayout {
 	}
 	
 	private void showNextScreen() {
+		viewFlipper.setInAnimation(getContext(), R.anim.view_transition_in_left);
+		viewFlipper.setOutAnimation(getContext(), R.anim.view_transition_out_left);
 		viewFlipper.showNext();
 /*		ScreenLayout current_view=(ScreenLayout) viewFlipper.getCurrentView();
 		if(current_view!=null)current_view.updateFields(); // store data
@@ -208,6 +212,13 @@ public class ComplaintLayout extends LinearLayout {
 		
 		viewFlipper = (ViewFlipper)findViewById(R.id.viewFlipper1);
 		
+		for(int i=0;i<parent.complaint.screens.size();i++) {
+			Screen scr=parent.complaint.screens.get(i);
+	
+			ScreenLayout screen_layout=new ScreenLayout(getContext(), scr, click_listener);
+			viewFlipper.addView(screen_layout);
+		}
+/*		
 		msg_view = new ComplaintMsgLayout(getContext(), this);
 		info_view = new ComplaintInfoLayout(getContext(), this);
 		outro_view = new ComplaintOutroLayout(getContext(), this);
@@ -215,7 +226,7 @@ public class ComplaintLayout extends LinearLayout {
 		viewFlipper.addView(msg_view);
 		viewFlipper.addView(info_view);
 		viewFlipper.addView(outro_view);	
-		
+*/		
 		nextButton = (Button) this.findViewById(R.id.buttonNext);
 		nextButton.setBackgroundResource(R.drawable.forward_button_layers);
 		nextButton.setText("");

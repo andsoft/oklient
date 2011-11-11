@@ -66,6 +66,9 @@ public class ScreenLayout extends TableLayout {
 			else if(quest.type.equals("confirmation")){
 				q_layout = new QuestionLayout_Confirmation(getContext(), quest);
 			}
+			else if(quest.type.equals("info")){
+				q_layout = new QuestionLayout_Information(getContext(), quest, click_listener);	
+			}
 			
 			table.addView((TableRow)q_layout/*, new TableRow.LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT)*/);
 			quest_layouts.add(q_layout);
