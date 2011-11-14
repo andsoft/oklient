@@ -81,38 +81,38 @@ public final class R {
         public static final int yellow_pressed=0x7f02003d;
     }
     public static final class id {
-        public static final int LinearLayout1=0x7f070012;
+        public static final int LinearLayout1=0x7f07000d;
         public static final int SecondaryProgress=0x01010000;
-        public static final int button1=0x7f07000d;
+        public static final int button1=0x7f07000e;
         public static final int button2=0x7f070016;
         public static final int button3=0x7f070014;
-        public static final int buttonNext=0x7f070002;
-        public static final int buttonPrev=0x7f070003;
+        public static final int buttonNext=0x7f070001;
+        public static final int buttonPrev=0x7f070002;
         public static final int checkBox1=0x7f07000c;
-        public static final int client_logo=0x7f07000f;
+        public static final int client_logo=0x7f070010;
         public static final int editText1=0x7f070007;
         public static final int editText2=0x7f07000a;
         public static final int frameLayout1=0x7f07001e;
         public static final int imageView1=0x7f070017;
         public static final int imageView2=0x7f070015;
-        public static final int main_logo=0x7f07000e;
+        public static final int main_logo=0x7f07000f;
         public static final int nextButton=0x7f07001a;
-        public static final int oklient_logo=0x7f070010;
+        public static final int oklient_logo=0x7f070011;
         public static final int previousButton=0x7f07001b;
         public static final int progressBar1=0x7f07001d;
-        public static final int relativeLayout1=0x7f070001;
+        public static final int relativeLayout1=0x7f070000;
         public static final int relativeLayout2=0x7f07001c;
         public static final int relativeLayout3=0x7f070013;
         public static final int relativeLayout4=0x7f070018;
         public static final int relativeLayout5=0x7f070019;
-        public static final int tableRow1=0x7f070006;
+        public static final int tableRow1=0x7f070005;
         public static final int tableRow2=0x7f070008;
         public static final int tableRow3=0x7f07000b;
-        public static final int textView1=0x7f070000;
+        public static final int textView1=0x7f070006;
         public static final int textView2=0x7f070009;
-        public static final int textView3=0x7f070005;
-        public static final int viewFlipper=0x7f070011;
-        public static final int viewFlipper1=0x7f070004;
+        public static final int textView3=0x7f070004;
+        public static final int viewFlipper=0x7f070012;
+        public static final int viewFlipper1=0x7f070003;
     }
     public static final class layout {
         public static final int complaint=0x7f030000;

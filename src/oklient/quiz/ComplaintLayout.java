@@ -92,19 +92,19 @@ public class ComplaintLayout extends LinearLayout {
     };
 	
 	public void startQuiz(){
-/*		parent.q.initQuestionnaire();
-		showNextScreen();*/
+		parent.complaint.initQuestionnaire();
+		showNextScreen();
 	}
 	
 	public void stopQuiz(){
-/*
+
 		Answers res=new Answers();
 		Survey surv=new Survey();
 		surv.questionnaire=parent.q.id;
 		surv.created_at=TimeUtils.GetUTCdatetimeAsString();
 		
 		
-		
+/*		
 		for(int i=0; i<parent.q.screens.size();i++){
 			Screen scr=parent.q.screens.get(i);
 			
@@ -121,84 +121,89 @@ public class ComplaintLayout extends LinearLayout {
 				}
 			}
 		}
+*/		surv.complaint.created_at=TimeUtils.GetUTCdatetimeAsString();
+		surv.complaint.body=parent.complaint.screens.get(0).questions.get(0).answers.get(0).value;
+		surv.complaint.title=parent.complaint.screens.get(0).questions.get(1).answers.get(0).value;
+		surv.complaint.name=parent.complaint.screens.get(1).questions.get(0).answers.get(0).value;
+		surv.complaint.contacts=parent.complaint.screens.get(1).questions.get(1).answers.get(0).value;
 		
 		res.surveis.add(surv);
 		
 		// send results
-		String xml_res=res.getXml();	
+		String xml_res=res.getComplaintXml();	
 		
-		parent.api.SendResults(xml_res);*/
+		parent.api.SendResults(xml_res);
 	}
 	
 	private void showPrevScreen() {
-		viewFlipper.setInAnimation(getContext(), R.anim.view_transition_in_right);
+		/*viewFlipper.setInAnimation(getContext(), R.anim.view_transition_in_right);
 		viewFlipper.setOutAnimation(getContext(), R.anim.view_transition_out_right);
-		viewFlipper.showPrevious();
-/*		View current_view=viewFlipper.getCurrentView();
+		viewFlipper.showPrevious();*/
+		/////////////////////////////////////
+		//View current_view=viewFlipper.getCurrentView();
 		
 		viewFlipper.setInAnimation(getContext(), R.anim.view_transition_in_right);
 		viewFlipper.setOutAnimation(getContext(), R.anim.view_transition_out_right);
 		viewFlipper.showPrevious();
 		
-		viewFlipper.removeView(current_view);
+		//viewFlipper.removeView(current_view);
 		
 		ScreenLayout view=(ScreenLayout)viewFlipper.getCurrentView();
 		
 		
-		Screen cur_scr=parent.q.screens.get(n);
+		Screen cur_scr=parent.complaint.screens.get(n);
 		cur_scr.setPassed(false); // clear prev data
 		
 		
 		//if(n>=1)n--;
 		//else return;
 		Screen s=view.getScreen();
-		n=parent.q.screens.indexOf(s);
+		n=parent.complaint.screens.indexOf(s);
 		
-		Screen scr=parent.q.screens.get(n);
+		Screen scr=parent.complaint.screens.get(n);
 		scr.setPassed(false); // clear prev data
 		prevButton.setEnabled(n>0);
 		nextButton.setEnabled(!scr.questions.get(0).type.equals("single_choice"));
-*/		
+		
 	}
 	
 	private void showNextScreen() {
-		viewFlipper.setInAnimation(getContext(), R.anim.view_transition_in_left);
+/*		viewFlipper.setInAnimation(getContext(), R.anim.view_transition_in_left);
 		viewFlipper.setOutAnimation(getContext(), R.anim.view_transition_out_left);
 		viewFlipper.showNext();
-/*		ScreenLayout current_view=(ScreenLayout) viewFlipper.getCurrentView();
+*/		/////////////////////////////////////////
+		ScreenLayout current_view=(ScreenLayout) viewFlipper.getCurrentView();
 		if(current_view!=null)current_view.updateFields(); // store data
 		
 		//Screen cur_scr=parent.q.screens.get(n);
 		//cur_scr.setPassed(true); // store data
 		
-		n=parent.q.getNextScreen(n);
+		n=parent.complaint.getNextScreen(n);
 		if(n==-1){
 			viewFlipper.removeAllViews();
-			//parent.q.initQuestionnaire();
-			//showNextScreen();
 			// show outro view
-			final ViewFlipper parentFlipper = (ViewFlipper)parent.findViewById(R.id.viewFlipper);
-			parentFlipper.showNext();
-			
+			//final ViewFlipper parentFlipper = (ViewFlipper)parent.findViewById(R.id.viewFlipper);
+			//parentFlipper.showNext();
+			//TODO quit
 			stopQuiz();
 			
 			return;
 		} //TODO no more screens
 		
 		
-		Screen scr=parent.q.screens.get(n);
+		Screen scr=parent.complaint.screens.get(n);
 		
 		prevButton.setEnabled(n>0);
 		nextButton.setEnabled(!scr.questions.get(0).type.equals("single_choice"));
 		
-		ScreenLayout screen_layout=new ScreenLayout(getContext(), scr, click_listener);
-		viewFlipper.addView(screen_layout);
+		//ScreenLayout screen_layout=new ScreenLayout(getContext(), scr, click_listener);
+		//viewFlipper.addView(screen_layout);
 		viewFlipper.setInAnimation(getContext(), R.anim.view_transition_in_left);
 		viewFlipper.setOutAnimation(getContext(), R.anim.view_transition_out_left);
 		viewFlipper.showNext();
 		
-		mHandler.removeCallbacks(mUpdateTimeTask);
-		mHandler.postDelayed(mUpdateTimeTask, (10000)) ;*/
+		//mHandler.removeCallbacks(mUpdateTimeTask);
+		//mHandler.postDelayed(mUpdateTimeTask, (10000)) ;
 	}
 
 	private void initComponent() {

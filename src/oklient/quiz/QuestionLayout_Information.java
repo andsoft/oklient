@@ -11,9 +11,11 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.TableRow.LayoutParams;
+//import android.widget.TableLayout.LayoutParams;
 
 public class QuestionLayout_Information extends QuestionLayout {
 	private View.OnClickListener click_listener;
@@ -30,19 +32,26 @@ public class QuestionLayout_Information extends QuestionLayout {
 	
 	protected void initComponent2() {
 		this.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL);
-		this.setLayoutParams(new TableRow.LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
-
+		
+		//this.setLayoutParams(new TableRow.LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
+		//this.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT));
 
 			LinearLayout ll=new LinearLayout(getContext());
 			ll.setOrientation(LinearLayout.VERTICAL);
-			ll.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT));
+			//ll.setLayoutParams(new TableRow.LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT));
+			ll.setGravity(Gravity.CENTER);
 			
 			TextView text=new TextView(getContext());
 			text.setText(question.title);
-			ll.addView(text, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
+			text.setTextSize(20);
+			text.setTextColor(Color.BLACK);
+			text.setMinimumWidth(600);
+			text.setLayoutParams(new LayoutParams(/*LayoutParams.FILL_PARENT*/600, LayoutParams.FILL_PARENT));
+			text.setGravity(Gravity.CENTER);
+			ll.addView(text);
 			
 				Button b = new Button(getContext());
-				b.setTextColor(Color.WHITE);
+				//b.setTextColor(Color.WHITE);
 				b.setBackgroundResource(R.drawable.info_close_button_layers); // TODO 
 				//b.setOnClickListener(click_listener);
 				b.setOnClickListener(new OnClickListener()
@@ -55,12 +64,16 @@ public class QuestionLayout_Information extends QuestionLayout {
 
 				});
 				
-				b.setText("Close"); // TODO from res
-				ll.addView(b, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-			
+				//b.setText("Close");
+				b.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+				
+				ll.addView(b);
+				
+				
+			//ll.setBackgroundColor(Color.GREEN);
 
-			this.addView(ll, new TableRow.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
-		
+			this.addView(ll/*, new TableRow.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT)*/);
+		//this.setBackgroundColor(Color.RED);
 	}
 
 	@Override

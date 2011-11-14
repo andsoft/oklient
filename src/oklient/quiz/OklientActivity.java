@@ -97,7 +97,7 @@ complaint.addQuestion(quest_3);
 
 Screen scr2=new Screen();
 scr2.title="Книга жалоб и предложений";
-scr2.hint="complaint hint2";
+scr2.hint="";
 scr2.id="2";
 
 complaint.addScreen(scr2);
@@ -120,7 +120,7 @@ complaint.addQuestion(quest2_1);
 
 Screen scr3=new Screen();
 scr3.title="Спасибо!";
-scr3.hint="complaint hint3";
+scr3.hint="";
 scr3.id="3";
 
 complaint.addScreen(scr3);

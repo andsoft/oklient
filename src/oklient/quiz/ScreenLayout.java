@@ -69,13 +69,14 @@ public class ScreenLayout extends TableLayout {
 			else if(quest.type.equals("info")){
 				q_layout = new QuestionLayout_Information(getContext(), quest, click_listener);	
 			}
-			
+			//q_layout.setBackgroundColor(Color.BLUE);
 			table.addView((TableRow)q_layout/*, new TableRow.LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT)*/);
 			quest_layouts.add(q_layout);
 		}
 		
 		// add hint
 		table.addView(hint, new TableRow.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
+		//table.setBackgroundColor(Color.MAGENTA);
     }
 
     public void updateFields() {

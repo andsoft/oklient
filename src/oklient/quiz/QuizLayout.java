@@ -332,7 +332,9 @@ public class QuizLayout extends LinearLayout {
 				dialog.setContentView(q1);
 */
 				//dialog.setContentView(R.layout.complaint);
-				dialog.setContentView(new ComplaintLayout(getContext(),parent));
+				ComplaintLayout cl=new ComplaintLayout(getContext(),parent);
+				cl.startQuiz();
+				dialog.setContentView(cl);
 /*				Drawable drawable = getResources().getDrawable(R.drawable.background_complaint);
 				drawable.setAlpha(240);
 				dialog.getWindow().setBackgroundDrawable(drawable);

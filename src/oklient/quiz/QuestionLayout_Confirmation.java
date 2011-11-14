@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.view.Gravity;
 import android.widget.CheckBox;
 import android.widget.TableRow;
+import android.widget.TextView;
 import android.widget.TableRow.LayoutParams;
 
 public class QuestionLayout_Confirmation extends QuestionLayout {
@@ -37,6 +38,7 @@ public class QuestionLayout_Confirmation extends QuestionLayout {
 				LayoutParams.WRAP_CONTENT);
 
 
+		this.addView(new TextView(getContext()));
 		this.addView(check);
 
 	}

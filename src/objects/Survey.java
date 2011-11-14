@@ -8,6 +8,7 @@ public class Survey {
 	public String created_at;
 	
 	public List<Answer> answers; 
+	public Complaint complaint;
 	
 	public Survey(){
 		 answers=new ArrayList<Answer>();
