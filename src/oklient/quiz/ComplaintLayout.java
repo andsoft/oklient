@@ -2,6 +2,7 @@ package oklient.quiz;
 
 import objects.Answer;
 import objects.Answers;
+import objects.Complaint;
 import objects.Question;
 import objects.Screen;
 import objects.Survey;
@@ -15,6 +16,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.SoundEffectConstants;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
@@ -24,6 +26,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -65,31 +68,6 @@ public class ComplaintLayout extends LinearLayout {
 		};
 	}
 	
-	// Timer 
-    private Handler mHandler = new Handler();
-    //
-    private Runnable mUpdateTimeTask = new Runnable() 
-    {
-       public void run() 
-       {
-           // Do something 
-           //Log.d( this.toString(), "Do something !");
-    	   TimerDialog dialog = new TimerDialog(parent);
-			//dialog.setContentView(R.layout.timer);
-			//TextProgressBar pb=(TextProgressBar)dialog.findViewById(R.id.progressBar1);
-			//pb.setText("15");
-			//dialog.getWindow().setLayout(LayoutParams.FILL_PARENT,
-           //         LayoutParams.FILL_PARENT);
-			dialog.show(); 
-			
-    	   //TextProgressBar pb=(TextProgressBar)findViewById(R.id.progressBar1);
-   			//pb.setText(String.valueOf(n));
-   			
-           // timer
-           mHandler.removeCallbacks(mUpdateTimeTask);
-           //mHandler.postDelayed(mUpdateTimeTask, (10000)) ;
-       }
-    };
 	
 	public void startQuiz(){
 		parent.complaint.initQuestionnaire();
@@ -121,7 +99,9 @@ public class ComplaintLayout extends LinearLayout {
 				}
 			}
 		}
-*/		surv.complaint.created_at=TimeUtils.GetUTCdatetimeAsString();
+*/		
+		surv.complaint=new Complaint();
+		surv.complaint.created_at=TimeUtils.GetUTCdatetimeAsString();
 		surv.complaint.body=parent.complaint.screens.get(0).questions.get(0).answers.get(0).value;
 		surv.complaint.title=parent.complaint.screens.get(0).questions.get(1).answers.get(0).value;
 		surv.complaint.name=parent.complaint.screens.get(1).questions.get(0).answers.get(0).value;
@@ -140,13 +120,13 @@ public class ComplaintLayout extends LinearLayout {
 		viewFlipper.setOutAnimation(getContext(), R.anim.view_transition_out_right);
 		viewFlipper.showPrevious();*/
 		/////////////////////////////////////
-		//View current_view=viewFlipper.getCurrentView();
+		View current_view=viewFlipper.getCurrentView();
 		
 		viewFlipper.setInAnimation(getContext(), R.anim.view_transition_in_right);
 		viewFlipper.setOutAnimation(getContext(), R.anim.view_transition_out_right);
 		viewFlipper.showPrevious();
-		
-		//viewFlipper.removeView(current_view);
+
+		viewFlipper.removeView(current_view);
 		
 		ScreenLayout view=(ScreenLayout)viewFlipper.getCurrentView();
 		
@@ -195,9 +175,11 @@ public class ComplaintLayout extends LinearLayout {
 		
 		prevButton.setEnabled(n>0);
 		nextButton.setEnabled(!scr.questions.get(0).type.equals("single_choice"));
+		prevButton.setVisibility(scr.questions.get(0).type.equals("info")? INVISIBLE: VISIBLE);
+		nextButton.setVisibility(scr.questions.get(0).type.equals("info")? INVISIBLE: VISIBLE);
 		
-		//ScreenLayout screen_layout=new ScreenLayout(getContext(), scr, click_listener);
-		//viewFlipper.addView(screen_layout);
+		ScreenLayout screen_layout=new ScreenLayout(getContext(), scr, click_listener);
+		viewFlipper.addView(screen_layout);
 		viewFlipper.setInAnimation(getContext(), R.anim.view_transition_in_left);
 		viewFlipper.setOutAnimation(getContext(), R.anim.view_transition_out_left);
 		viewFlipper.showNext();
@@ -216,13 +198,13 @@ public class ComplaintLayout extends LinearLayout {
 		//this.setBackgroundResource(R.drawable.background_complaint);
 		
 		viewFlipper = (ViewFlipper)findViewById(R.id.viewFlipper1);
-		
+/*		
 		for(int i=0;i<parent.complaint.screens.size();i++) {
 			Screen scr=parent.complaint.screens.get(i);
 	
 			ScreenLayout screen_layout=new ScreenLayout(getContext(), scr, click_listener);
 			viewFlipper.addView(screen_layout);
-		}
+		}*/
 /*		
 		msg_view = new ComplaintMsgLayout(getContext(), this);
 		info_view = new ComplaintInfoLayout(getContext(), this);
@@ -235,11 +217,13 @@ public class ComplaintLayout extends LinearLayout {
 		nextButton = (Button) this.findViewById(R.id.buttonNext);
 		nextButton.setBackgroundResource(R.drawable.forward_button_layers);
 		nextButton.setText("");
+		//nextButton.setSoundEffectsEnabled(true);
 		nextButton.setOnClickListener(new OnClickListener()
 		{
 
 			//@Override
 			public void onClick(View v) {
+				//nextButton.playSoundEffect(SoundEffectConstants.NAVIGATION_RIGHT);
 				viewFlipper.setInAnimation(getContext(), R.anim.view_transition_in_left);
 				viewFlipper.setOutAnimation(getContext(), R.anim.view_transition_out_left);
 				
@@ -251,11 +235,13 @@ public class ComplaintLayout extends LinearLayout {
 		prevButton = (Button) this.findViewById(R.id.buttonPrev);
 		prevButton.setBackgroundResource(R.drawable.back_button_layers);
 		prevButton.setText("");
+		//prevButton.setSoundEffectsEnabled(true);
 		prevButton.setOnClickListener(new OnClickListener()
 		{
 
 			//@Override
 			public void onClick(View v) {
+				//prevButton.playSoundEffect(SoundEffectConstants.CLICK);
 				viewFlipper.setInAnimation(getContext(), R.anim.view_transition_in_right);
 				viewFlipper.setOutAnimation(getContext(), R.anim.view_transition_out_right);
 				

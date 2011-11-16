@@ -16,6 +16,7 @@ import android.os.Handler;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -24,6 +25,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -212,8 +214,8 @@ public class QuizLayout extends LinearLayout {
 
 		ImageView imView2 = (ImageView) findViewById(R.id.imageView2);
         imView2.setImageBitmap(parent.bmImg);
-        
-		mProgress = (ProgressBar) findViewById(R.id.progressBar1);
+
+        mProgress = (ProgressBar) findViewById(R.id.progressBar1);
 
 		mProgress.setMax(parent.q.screens.size());
 		mProgress.setProgressDrawable(getResources().getDrawable(R.drawable.progress_layers)); 
@@ -262,6 +264,7 @@ public class QuizLayout extends LinearLayout {
 
 		infoButton = (Button) findViewById(R.id.button1);
 		infoButton.setBackgroundResource(R.drawable.info_button_layers);
+		infoButton.setHeight(0); // force to update size
 		infoButton.setText("");
 		infoButton.setOnClickListener(new OnClickListener()
 		{
