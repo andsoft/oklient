@@ -37,6 +37,28 @@ public class Answers {
 					 if(answ.value!=null)serializer.attribute("", "value", answ.value);
 					 serializer.endTag("", "answer");
 				 }
+				 
+				 if (surv.complaint!=null){
+					 serializer.startTag("", "complaint");
+					 //serializer.attribute("", "question", answ.question);
+					 serializer.attribute("", "created_at", surv.complaint.created_at);
+
+					 // todo
+					 serializer.startTag("", "title");
+					 if(surv.complaint.title!=null)serializer.text(surv.complaint.title);
+					 serializer.endTag("", "title");
+					 serializer.startTag("", "body");
+					 if(surv.complaint.body!=null)serializer.text(surv.complaint.body);
+					 serializer.endTag("", "body");
+					 serializer.startTag("", "name");
+					 if(surv.complaint.name!=null)serializer.text(surv.complaint.name);
+					 serializer.endTag("", "name");
+					 serializer.startTag("", "contacts");
+					 if(surv.complaint.contacts!=null)serializer.text(surv.complaint.contacts);
+					 serializer.endTag("", "contacts");
+
+					 serializer.endTag("", "complaint");
+				 }
 				 serializer.endTag("", "survey");
 			 }
 			 serializer.endTag("", "answers");

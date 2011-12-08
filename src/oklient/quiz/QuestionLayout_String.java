@@ -27,17 +27,27 @@ public class QuestionLayout_String extends QuestionLayout {
 		text = new TextView(getContext());
 		text.setText(question.title);
 		text.setTextColor(Color.BLACK);
+		text.setGravity(Gravity.RIGHT);
+		text.setTextSize(12);
 		
 		edit=new EditText(getContext());
 		edit.setBackgroundResource(R.drawable.edit_text_layers);
 		edit.setMinimumWidth(400);
+		edit.setHeight(edit.getHeight());
+		edit.setPadding(15, 5, 15, 5);
+		edit.setTextSize(12);
+		
+		TableRow.LayoutParams edit_lp=new TableRow.LayoutParams(/*LayoutParams.WRAP_CONTENT*/450, LayoutParams.WRAP_CONTENT);
+		edit_lp.leftMargin=10;
+		edit_lp.rightMargin=10;
 		
 		// init table row
 		this.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL);
 		this.setLayoutParams(new TableRow.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 		
-		this.addView(text);
-		this.addView(edit);
+		this.addView(text, new TableRow.LayoutParams(250, LayoutParams.WRAP_CONTENT));
+		this.addView(edit, edit_lp);
+		this.addView(new TextView(getContext()), new TableRow.LayoutParams(250, LayoutParams.WRAP_CONTENT));
 	}
 
 	@Override

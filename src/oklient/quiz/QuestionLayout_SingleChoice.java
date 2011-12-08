@@ -62,7 +62,9 @@ public class QuestionLayout_SingleChoice extends QuestionLayout {
 				});
 
 				//b.setText(opt.title);
-				this.addView(b, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
+				LayoutParams lp=new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
+				lp.setMargins(5, 0, 5, 0);
+				this.addView(b, lp);//new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
 			}
 		}
 		else{
@@ -90,10 +92,12 @@ public class QuestionLayout_SingleChoice extends QuestionLayout {
 				});
 				
 				b.setText(opt.title);
-				ll.addView(b, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
+				LayoutParams lp=new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
+				lp.setMargins(0, 5, 0, 5);
+				ll.addView(b, lp);//new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
 			}
 
-			this.addView(ll);
+			this.addView(ll, new TableRow.LayoutParams(450, LayoutParams.WRAP_CONTENT));
 		}
 	}
 

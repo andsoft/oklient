@@ -10,11 +10,12 @@ import android.content.Context;
 import android.graphics.Color;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-public class ScreenLayout extends TableLayout {
+public class ScreenLayout extends LinearLayout/*TableLayout*/ {
     private Screen screen;
     private View.OnClickListener click_listener;
     private List<QuestionLayout> quest_layouts;
@@ -29,6 +30,9 @@ public class ScreenLayout extends TableLayout {
     private void initComponent() {
     	quest_layouts=new ArrayList<QuestionLayout>();
     	
+    	this.setOrientation(LinearLayout.VERTICAL);
+    	this.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL);
+    	
     	TextView title = new TextView(getContext());
 		title.setText(screen.title);
 		title.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL);
@@ -38,13 +42,21 @@ public class ScreenLayout extends TableLayout {
 		TextView hint = new TextView(getContext());
 		hint.setText(screen.hint);
 		hint.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL);
-		hint.setTextColor(Color.BLACK);
+		hint.setTextColor(Color.rgb(128, 128, 128));
+		hint.setTextSize(12);
 		
-		TableLayout table = this;
+		TableLayout table = new TableLayout(getContext());//this;
 		table.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL);
 		
+		//table.setWeightSum(10);
+		LayoutParams title_lp=new LayoutParams(/*LayoutParams.FILL_PARENT*/600, LayoutParams.WRAP_CONTENT);
+		title_lp.bottomMargin=20;
+		title_lp.setMargins(0, 0, 0, 20);
+		//title_lp.weight=5;
+		title.setLayoutParams(title_lp);
+		//title.setBackgroundColor(Color.BLUE);
 		// add title
-		table.addView(title, new TableRow.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
+		/*table*/this.addView(title/*, title_lp*/);//new TableRow.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
 		
 		// add questions
 		for(int j=0;j<screen.questions.size();j++){
@@ -70,12 +82,18 @@ public class ScreenLayout extends TableLayout {
 				q_layout = new QuestionLayout_Information(getContext(), quest, click_listener);	
 			}
 			//q_layout.setBackgroundColor(Color.BLUE);
-			table.addView((TableRow)q_layout/*, new TableRow.LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT)*/);
+			TableRow.LayoutParams q_lp=new TableRow.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
+			q_lp.weight=0;
+			table.addView((TableRow)q_layout,q_lp);///*, new TableRow.LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT)*/);
 			quest_layouts.add(q_layout);
 		}
-		
+		this.addView(table);
 		// add hint
-		table.addView(hint, new TableRow.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
+		TableRow.LayoutParams hint_lp=new TableRow.LayoutParams(600, LayoutParams.WRAP_CONTENT);
+		//hint_lp.weight=5;
+		hint_lp.topMargin=20;
+		/*table*/this.addView(hint, hint_lp);//new TableRow.LayoutParams(600/*LayoutParams.FILL_PARENT*/, LayoutParams.FILL_PARENT/*WRAP_CONTENT*/));
+		//hint.setBackgroundColor(Color.RED);
 		//table.setBackgroundColor(Color.MAGENTA);
     }
 

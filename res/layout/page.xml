@@ -1,15 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="fill_parent" 
-	android:layout_height="fill_parent" 
-	>
-	<ImageView
-		android:id="@+id/main_logo" 
-		android:src="@drawable/icon"
-		android:scaleType="fitCenter"
-		android:layout_height="fill_parent"
-		android:layout_width="fill_parent"/>
-	<ImageView android:layout_width="wrap_content" android:src="@drawable/icon" android:layout_height="wrap_content" android:id="@+id/client_logo" android:layout_alignParentTop="true" android:layout_alignParentLeft="true" android:layout_marginLeft="31dp" android:layout_marginTop="30dp"></ImageView>
-	<TextView android:gravity="center" android:textSize="24sp" android:layout_width="fill_parent" android:textColor="#000000" android:layout_height="fill_parent" android:text="Learn-Android.com" android:layout_alignParentTop="true" android:layout_alignParentLeft="true"></TextView>
-	<ImageView android:layout_width="wrap_content" android:src="@drawable/icon" android:layout_height="wrap_content" android:id="@+id/oklient_logo" android:layout_alignTop="@+id/client_logo" android:layout_alignParentRight="true" android:layout_marginRight="25dp"></ImageView>
-</RelativeLayout>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/FrameLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="50dp"
+    android:layout_marginRight="50dp" >
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <RelativeLayout
+            android:id="@+id/linearLayout1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/textbox1"
+            android:orientation="vertical"
+            android:paddingTop="30dp"
+            android:paddingBottom="30dp"
+            android:paddingLeft="70dp"
+            android:paddingRight="70dp" >
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/button2"
+                android:textColor="#ff000000"
+                android:text="Large Text gfj  gf jjh h jhjhjhj jhjjhjfff  jhjhfj jfjhf sdfsdsfsdfsdfsdfsdfsdf sdfsdfsdfs fsdfsdfsfsd sdfsfsf" />
+
+            <Button
+                android:id="@+id/button2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/info_close_button_layers"
+                android:text="Close" />
+
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/button1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/info_x_button_layers"
+            android:text="Button" />
+    </RelativeLayout>
+
+</FrameLayout>

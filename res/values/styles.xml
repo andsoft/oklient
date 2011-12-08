@@ -20,4 +20,13 @@
 		<item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
 		<item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
 	</style>
+	<style name="RangeSeekBar">
+    	<item name="android:indeterminateOnly">false</item>
+    	<item name="android:progressDrawable">@drawable/seekbar_background</item>
+    	<item name="android:indeterminateDrawable">@drawable/scale_line</item>
+
+    	<item name="android:thumb">@drawable/slider</item>
+    	<item name="android:thumbOffset">1px</item>
+    	<item name="android:focusable">true</item>
+  </style>
 </resources>

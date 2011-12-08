@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
+    android:layout_height="fill_parent"
+    android:background="@drawable/background" >
 
     <RelativeLayout
         android:id="@+id/relativeLayout3"
@@ -11,12 +12,14 @@
         android:orientation="horizontal" >
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/buttonQuit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            android:text="Quit" >
+            android:background="@drawable/stop_button_layers"
+            android:text="" >
+
         </Button>
 
         <ImageView
@@ -25,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:layout_marginLeft="14dp"
+            android:layout_marginLeft="10dp"
             android:src="@drawable/icon" />
 
     </RelativeLayout>
@@ -35,15 +38,17 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true" >
+        android:layout_alignParentLeft="true"
+        android:background="@drawable/down_panel_background2" >
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/buttonComplaint"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:text="Complaint" />
+            android:background="@drawable/complaint_button_layers"
+            android:text="" />
 
         <ImageView
             android:id="@+id/imageView1"
@@ -55,13 +60,14 @@
             android:src="@drawable/oklient" />
 
         <Button
-            android:id="@+id/button1"
+            android:id="@+id/buttonHelp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
-            android:text="Help" />
+            android:background="@drawable/info_button_layers"
+            android:text="" />
 
     </RelativeLayout>
 
@@ -93,37 +99,32 @@
         android:layout_marginBottom="20.0dp" >
 
         <Button
-            android:id="@+id/nextButton"
+            android:id="@+id/buttonNext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            android:text="Next" />
+            android:background="@drawable/forward_button_layers"
+            android:text="" />
 
         <Button
-            android:id="@+id/previousButton"
+            android:id="@+id/buttonPrev"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:text="Prev" />
+            android:background="@drawable/back_button_layers"
+            android:text="" />
 
-        <RelativeLayout
-            android:id="@+id/relativeLayout2"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_margin="10.0dp" >
-
-            <ProgressBar
-                android:id="@+id/progressBar1"
-                style="@android:style/Widget.ProgressBar.Horizontal"
-                android:layout_width="200dip"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true" />
-        </RelativeLayout>
     </RelativeLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBar1"
+        style="@android:style/Widget.ProgressBar.Horizontal"
+        android:layout_width="85dp"
+        android:layout_height="10dp"
+        android:layout_below="@+id/relativeLayout4"
+        android:layout_centerHorizontal="true"
+        android:progressDrawable="@drawable/progress_layers" />
 
 </RelativeLayout>

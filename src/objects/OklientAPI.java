@@ -1,6 +1,7 @@
 package objects;
 
 import java.io.BufferedInputStream;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,6 +17,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.FileEntity;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
@@ -27,19 +29,29 @@ import android.content.Context;
 
 public class OklientAPI {
 	
-	final String strServer="http://oklient-dev.heroku.com";  // TODO from prefs 
-	final String strDeviceId="andreev_123";
-	final String strRegURL=strServer+"/system/devices";
-	final String strGetQuestURL=strRegURL+"/"+strDeviceId+"/questionnaire.xml";
+	private String strServer;
+	private String strDeviceId;
+	private String strRegURL;
+	private String strGetQuestURL;
+	private String strSendResultsURL;
 
 	public String xml;
 	
-	final HttpClient httpclient = new DefaultHttpClient();
+	private HttpClient httpclient;
+	
+	public OklientAPI(String server, String id) {
+		strServer=server;
+		strDeviceId=id;
+		strRegURL="http://"+strServer+"/system/devices";
+		strGetQuestURL=strRegURL+"/"+strDeviceId+"/questionnaire.xml";
+		strSendResultsURL=strRegURL+"/"+strDeviceId+"/surveys";
+		
+		httpclient = new DefaultHttpClient();
+	}
 	
 	// Register new device on the server
-	public void Register(){
-		//HttpClient httpclient = new DefaultHttpClient();
-		HttpPost httppost = new HttpPost(strServer+"/system/devices");
+	public boolean Register() {
+		HttpPost httppost = new HttpPost(strRegURL);
 
 		try {
 			// Add device[key] parameter 
@@ -53,14 +65,18 @@ public class OklientAPI {
 
 			if(sl.getStatusCode()!=200){
 				// TODO handle error
+				return false;
 			}
 
 		} catch (ClientProtocolException e) {
 			// TODO Auto-generated catch block
+			return false;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
+			return false;
 		}
 
+		return true;
 	}
 
 	public void UpdateQuestionnaire(){
@@ -89,15 +105,20 @@ public class OklientAPI {
 		}
 	}
 	
+	public void UpdateQuestionnaire(String file){
+		//HttpClient httpclient = new DefaultHttpClient(); 
+		LoadFile(strGetQuestURL, file);
+	}
+	
 	public void SendResults(String xml_res)
 	{
-		//HttpClient httpclient = new DefaultHttpClient();
-        HttpPost httppost = new HttpPost("http://oklient-dev.heroku.com/system/devices/andreev_123/surveys");
+		// todo uri
+        HttpPost httppost = new HttpPost(strSendResultsURL);
 
         try {
             // Add your data
             List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
-            nameValuePairs.add(new BasicNameValuePair("device[key]", "andreev_123"));
+            nameValuePairs.add(new BasicNameValuePair("device[key]", strDeviceId));
             
             //httppost.setEntity(new StringEntity(xml_res));
 
@@ -122,7 +143,48 @@ public class OklientAPI {
         } 		
 	}
 	
-	public InputStream LoadFile(String url, String file){
+	public boolean SendFile(String xml_res)
+	{
+		// todo uri
+        HttpPost httppost = new HttpPost(strSendResultsURL);
+
+        try {
+            // Add your data
+            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+            nameValuePairs.add(new BasicNameValuePair("device[key]", strDeviceId));
+            
+            //httppost.setEntity(new StringEntity(xml_res));
+
+            FileEntity se = new FileEntity(new File(xml_res), "text/xml");
+
+            se.setContentType("text/xml");  
+            httppost.setHeader("Content-Type", "application/soap+xml;charset=UTF-8");
+            httppost.setEntity(se);  
+            //FileEntity entity = new FileEntity(new  File(filePath), "binary/octet-stream");
+            // Execute HTTP Post Request
+            HttpResponse response = httpclient.execute(httppost);
+            StatusLine sl=response.getStatusLine();
+            
+            if(sl.getStatusCode()!=200){
+				// TODO handle error
+            	return false;
+			}
+            
+        } catch (ClientProtocolException e) {
+            // TODO Auto-generated catch block
+        	return false;
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+        	return false;
+        } 	
+        return true;
+	}
+	
+	public boolean LoadFile(String url, String file){
+		
+		if(url==null || url.equals("") || file.equals(""))
+			return false;
+			
 		//HttpClient httpclient = new DefaultHttpClient(); 
 		HttpGet httpget = new HttpGet(url);
 
@@ -140,29 +202,31 @@ public class OklientAPI {
 	
 			InputStream is=httpEntity.getContent();
 			BufferedInputStream bis = new BufferedInputStream(is);
-			 
-             /*
-              * Read bytes to the Buffer until there is nothing more to read(-1).
-              */
-             ByteArrayBuffer baf = new ByteArrayBuffer(50);
-             int current = 0;
-             while ((current = bis.read()) != -1) {
-                     baf.append((byte) current);
-             }
 
-             /* Convert the Bytes read to a String. */
-             FileOutputStream fos = new FileOutputStream(file);
-             fos.write(baf.toByteArray());
-             fos.close();
+			/*
+			 * Read bytes to the Buffer until there is nothing more to read(-1).
+			 */
+			ByteArrayBuffer baf = new ByteArrayBuffer(50);
+			int current = 0;
+			while ((current = bis.read()) != -1) {
+				baf.append((byte) current);
+			}
+
+			/* Convert the Bytes read to a String. */
+			FileOutputStream fos = new FileOutputStream(file);
+			fos.write(baf.toByteArray());
+			fos.close();
+
 			
-			return is;
 
 		} catch (ClientProtocolException e) {
 			// TODO Auto-generated catch block
-			return null;
+			return false;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			return null;
+			return false;
 		}
+		
+		return true;
 	}
 }

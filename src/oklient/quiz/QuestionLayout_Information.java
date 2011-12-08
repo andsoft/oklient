@@ -53,6 +53,7 @@ public class QuestionLayout_Information extends QuestionLayout {
 				Button b = new Button(getContext());
 				//b.setTextColor(Color.WHITE);
 				b.setBackgroundResource(R.drawable.info_close_button_layers); // TODO 
+				b.setHeight(b.getHeight());
 				//b.setOnClickListener(click_listener);
 				b.setOnClickListener(new OnClickListener()
 				{
@@ -65,7 +66,9 @@ public class QuestionLayout_Information extends QuestionLayout {
 				});
 				
 				//b.setText("Close");
-				b.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+				LayoutParams lp=new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+				lp.topMargin=20;
+				b.setLayoutParams(lp);//new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 				
 				ll.addView(b);
 				

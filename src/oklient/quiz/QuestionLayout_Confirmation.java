@@ -30,24 +30,25 @@ public class QuestionLayout_Confirmation extends QuestionLayout {
 		/*CheckBox */check = new CheckBox(getContext());
 		check.setButtonDrawable(R.drawable.checkbox_layers);
 		check.setBackgroundResource(R.drawable.checkbox_fortext);
-		check.setPadding(100, 5, 5, 5);
+		check.setPadding(70, 5, 5, 5);
 		check.setTextColor(Color.BLACK);
 		check.setText(question.title);
+		check.setTextSize(10);
 
 		LayoutParams params2 = new LayoutParams(LayoutParams.WRAP_CONTENT,
 				LayoutParams.WRAP_CONTENT);
 
 
-		this.addView(new TextView(getContext()));
-		this.addView(check);
-
+		this.addView(new TextView(getContext()), new TableRow.LayoutParams(250, LayoutParams.WRAP_CONTENT));
+		this.addView(check, new TableRow.LayoutParams(450/*LayoutParams.FILL_PARENT*/, LayoutParams.WRAP_CONTENT));
+		this.addView(new TextView(getContext()), new TableRow.LayoutParams(250, LayoutParams.WRAP_CONTENT));
 	}
 
 	@Override
 	public void UpdateData(boolean b) {
 		Answer answer=new Answer();
 		answer.question=question.id;
-		answer.option="";
+		answer.option=question.id+(check.isChecked()?"_true":"_false"); // custom usage in complaint only!!!
 		answer.value=check.isChecked()?"1":"0";
 		answer.created_at=TimeUtils.GetUTCdatetimeAsString();
 		question.answers.add(answer);

@@ -1,43 +1,32 @@
 package oklient.quiz;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 import objects.Answer;
 import objects.Answers;
+import objects.Complaint;
 import objects.Question;
 import objects.Screen;
 import objects.Survey;
 import objects.TimeUtils;
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Handler;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.View.OnClickListener;
-import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
-import android.widget.SeekBar;
-import android.widget.TableLayout;
-import android.widget.TableRow;
-import android.widget.TextView;
 import android.widget.ViewFlipper;
-import android.widget.TableRow.LayoutParams;
 
 public class QuizLayout extends LinearLayout {
 	final OklientActivity parent;
 
 	private ProgressBar mProgress;
 	private ViewFlipper viewFlipper;
+	private ImageView imViewLogo;
 
 	private Button nextButton;
 	private Button prevButton;
@@ -45,75 +34,66 @@ public class QuizLayout extends LinearLayout {
 	private Button complaintButton;
 	private Button quitButton;
 	
-	// TODO remove
+	private View.OnClickListener click_listener;
+	
 	int n=-1;
-	LinearLayout l1;
-	LinearLayout l2;
-	//TextView tv1, tv2, tv3, tv4, tv5, tv6;
-
-	//private Context _context;
-	View.OnClickListener click_listener;
 	
 	public QuizLayout(Context context, OklientActivity _parent) {
 		super(context);
-		//_context=context;
+		
 		parent=_parent;
 		initComponent();
 		
-		//showNextScreen();
-		click_listener=new OnClickListener()
-		{
+		click_listener=new OnClickListener() {
 			//@Override
-			public void onClick(View v) {
-				
+			public void onClick(View v) {	
 				showNextScreen();
 			}
-
 		};
 	}
 	
 	// Timer 
     private Handler mHandler = new Handler();
     //
-    private Runnable mUpdateTimeTask = new Runnable() 
-    {
-       public void run() 
-       {
-           // Do something 
-           //Log.d( this.toString(), "Do something !");
-    	   TimerDialog dialog = new TimerDialog(parent);
-			//dialog.setContentView(R.layout.timer);
-			//TextProgressBar pb=(TextProgressBar)dialog.findViewById(R.id.progressBar1);
-			//pb.setText("15");
-			//dialog.getWindow().setLayout(LayoutParams.FILL_PARENT,
-           //         LayoutParams.FILL_PARENT);
-			dialog.show(); 
-			
-    	   //TextProgressBar pb=(TextProgressBar)findViewById(R.id.progressBar1);
-   			//pb.setText(String.valueOf(n));
-   			
+    private Runnable mUpdateTimeTask = new Runnable() {
+       public void run() {
+    	   /*TimerDialog dialog = new TimerDialog(parent,parent);
+    	   dialog.show(); 
+			*/
+    	   parent.showDialog(OklientActivity.DIALOG_TIMER_ID);
+    	 
            // timer
            mHandler.removeCallbacks(mUpdateTimeTask);
            //mHandler.postDelayed(mUpdateTimeTask, (10000)) ;
        }
     };
 	
+    public void startTimer(){
+    	mHandler.removeCallbacks(mUpdateTimeTask);
+        mHandler.postDelayed(mUpdateTimeTask, (30000)) ;
+	}
+	
+	public void stopTimer(){
+		mHandler.removeCallbacks(mUpdateTimeTask);
+	}
+    
 	public void startQuiz(){
-		parent.q.initQuestionnaire();
+		imViewLogo.setImageBitmap(parent.bmImg); // set image cause it can be updated in synctask
+		mProgress.setMax(parent.questionnaire.screens.size());
 		showNextScreen();
 	}
 	
 	public void stopQuiz(){
-
+		
 		Answers res=new Answers();
 		Survey surv=new Survey();
-		surv.questionnaire=parent.q.id;
+		surv.questionnaire=parent.questionnaire.id;
 		surv.created_at=TimeUtils.GetUTCdatetimeAsString();
 		
 		
-		
-		for(int i=0; i<parent.q.screens.size();i++){
-			Screen scr=parent.q.screens.get(i);
+		// answers
+		for(int i=0; i<parent.questionnaire.screens.size();i++){
+			Screen scr=parent.questionnaire.screens.get(i);
 			
 			if(!scr.getPassed())continue;
 			
@@ -129,15 +109,65 @@ public class QuizLayout extends LinearLayout {
 			}
 		}
 		
+		// complaint
+		if(parent.complaint.screens.get(0).getPassed()) {
+			surv.complaint=new Complaint();
+			surv.complaint.created_at=TimeUtils.GetUTCdatetimeAsString();
+			surv.complaint.body=parent.complaint.screens.get(0).questions.get(0).answers.get(0).value;
+			surv.complaint.title=parent.complaint.screens.get(0).questions.get(1).answers.get(0).value;
+			if(parent.complaint.screens.get(1).questions.get(0).answers.size()>0)
+			surv.complaint.name=parent.complaint.screens.get(1).questions.get(0).answers.get(0).value;
+			else surv.complaint.name="";
+			if(parent.complaint.screens.get(1).questions.get(1).answers.size()>0)
+			surv.complaint.contacts=parent.complaint.screens.get(1).questions.get(1).answers.get(0).value;
+			else surv.complaint.contacts="";
+		}
+		else
+			surv.complaint=null;
+		
 		res.surveis.add(surv);
 		
 		// send results
 		String xml_res=res.getXml();	
+		// TODO check for empty survey
+		try {
+	        FileOutputStream fos = getContext().openFileOutput("survey_"+TimeUtils.GetTimeStamp(), Context.MODE_PRIVATE);
+	        fos.write(xml_res.getBytes());
+	        fos.close();
+	    } catch (FileNotFoundException e) {
+	        // TODO Auto-generated catch block
+	        e.printStackTrace();
+	    } catch (IOException e) {
+	        // TODO Auto-generated catch block
+	        e.printStackTrace();
+	    }
 		
-		parent.api.SendResults(xml_res);
+		//parent.api.SendResults(xml_res);
+	}
+	
+	public void quitQuiz(boolean bShowOutro) {
+		stopTimer();
+		
+		parent.removeDialog(OklientActivity.DIALOG_COMPLAINT_ID);
+		parent.removeDialog(OklientActivity.DIALOG_INFO_ID);
+		parent.removeDialog(OklientActivity.DIALOG_TIMER_ID);
+		
+		n=-1;
+		mProgress.setProgress(0);
+		viewFlipper.removeAllViews();
+		//parent.q.initQuestionnaire();
+		//showNextScreen();
+		// show outro view
+		//final ViewFlipper parentFlipper = (ViewFlipper)parent.findViewById(R.id.viewFlipper);
+		if(bShowOutro) parent.showNextScreen();//parentFlipper.showNext();
+		else parent.showPrevScreen();//parentFlipper.showPrevious();
+		
+		stopQuiz();
 	}
 	
 	private void showPrevScreen() {
+		startTimer();
+		
 		View current_view=viewFlipper.getCurrentView();
 		
 		viewFlipper.setInAnimation(getContext(), R.anim.view_transition_in_right);
@@ -149,17 +179,17 @@ public class QuizLayout extends LinearLayout {
 		ScreenLayout view=(ScreenLayout)viewFlipper.getCurrentView();
 		
 		
-		Screen cur_scr=parent.q.screens.get(n);
+		Screen cur_scr=parent.questionnaire.screens.get(n);
 		cur_scr.setPassed(false); // clear prev data
 		
 		
 		//if(n>=1)n--;
 		//else return;
 		Screen s=view.getScreen();
-		n=parent.q.screens.indexOf(s);
+		n=parent.questionnaire.screens.indexOf(s);
 		mProgress.setProgress(n);
 		
-		Screen scr=parent.q.screens.get(n);
+		Screen scr=parent.questionnaire.screens.get(n);
 		scr.setPassed(false); // clear prev data
 		prevButton.setEnabled(n>0);
 		nextButton.setEnabled(!scr.questions.get(0).type.equals("single_choice"));
@@ -167,29 +197,22 @@ public class QuizLayout extends LinearLayout {
 	}
 	
 	private void showNextScreen() {
+		startTimer();
+		
 		ScreenLayout current_view=(ScreenLayout) viewFlipper.getCurrentView();
 		if(current_view!=null)current_view.updateFields(); // store data
 		
 		//Screen cur_scr=parent.q.screens.get(n);
 		//cur_scr.setPassed(true); // store data
 		
-		n=parent.q.getNextScreen(n);
+		n=parent.questionnaire.getNextScreen(n);
 		if(n==-1){
-			mProgress.setProgress(0);
-			viewFlipper.removeAllViews();
-			//parent.q.initQuestionnaire();
-			//showNextScreen();
-			// show outro view
-			final ViewFlipper parentFlipper = (ViewFlipper)parent.findViewById(R.id.viewFlipper);
-			parentFlipper.showNext();
-			
-			stopQuiz();
-			
+			quitQuiz(true);
 			return;
 		} //TODO no more screens
 		
 		
-		Screen scr=parent.q.screens.get(n);
+		Screen scr=parent.questionnaire.screens.get(n);
 		
 		prevButton.setEnabled(n>0);
 		nextButton.setEnabled(!scr.questions.get(0).type.equals("single_choice"));
@@ -201,185 +224,67 @@ public class QuizLayout extends LinearLayout {
 		viewFlipper.setInAnimation(getContext(), R.anim.view_transition_in_left);
 		viewFlipper.setOutAnimation(getContext(), R.anim.view_transition_out_left);
 		viewFlipper.showNext();
-		
-		mHandler.removeCallbacks(mUpdateTimeTask);
-		mHandler.postDelayed(mUpdateTimeTask, (10000)) ;
+
 	}
 
 	private void initComponent() {
 		LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		inflater.inflate(R.layout.quiz, this);
 
-		this.setBackgroundResource(R.drawable.background);
-
-		ImageView imView2 = (ImageView) findViewById(R.id.imageView2);
-        imView2.setImageBitmap(parent.bmImg);
+		imViewLogo = (ImageView) findViewById(R.id.imageView2);
+        imViewLogo.setImageBitmap(parent.bmImg);
 
         mProgress = (ProgressBar) findViewById(R.id.progressBar1);
-
-		mProgress.setMax(parent.q.screens.size());
-		mProgress.setProgressDrawable(getResources().getDrawable(R.drawable.progress_layers)); 
+		mProgress.setMax(100/*parent.q.screens.size()*/); // will be changed on startquiz
 		
 		viewFlipper = (ViewFlipper)findViewById(R.id.viewFlipper);
-		
-		View bottom = findViewById(R.id.relativeLayout1);
-		bottom.setBackgroundResource(R.drawable.down_panel_background2);
-		
-/*
-		// add empty view to provide animated transition to the first view
-		LinearLayout empty_view=new LinearLayout(_context);
-		viewFlipper.addView(empty_view);
-*/
-		nextButton = (Button) this.findViewById(R.id.nextButton);
-		nextButton.setBackgroundResource(R.drawable.forward_button_layers);
-		nextButton.setText("");
+				
+		nextButton = (Button) this.findViewById(R.id.buttonNext);
 		nextButton.setOnClickListener(new OnClickListener()
 		{
-
 			//@Override
 			public void onClick(View v) {
-				viewFlipper.setInAnimation(getContext(), R.anim.view_transition_in_left);
-				viewFlipper.setOutAnimation(getContext(), R.anim.view_transition_out_left);
-				
 				showNextScreen();
 			}
-
 		});
 
-		prevButton = (Button) this.findViewById(R.id.previousButton);
-		prevButton.setBackgroundResource(R.drawable.back_button_layers);
-		prevButton.setText("");
+		prevButton = (Button) this.findViewById(R.id.buttonPrev);
 		prevButton.setOnClickListener(new OnClickListener()
 		{
-
 			//@Override
 			public void onClick(View v) {
-				viewFlipper.setInAnimation(getContext(), R.anim.view_transition_in_right);
-				viewFlipper.setOutAnimation(getContext(), R.anim.view_transition_out_right);
-				
 				showPrevScreen();
 			}
 
 		});
 
-		infoButton = (Button) findViewById(R.id.button1);
-		infoButton.setBackgroundResource(R.drawable.info_button_layers);
-		infoButton.setHeight(0); // force to update size
-		infoButton.setText("");
+		infoButton = (Button) findViewById(R.id.buttonHelp);
 		infoButton.setOnClickListener(new OnClickListener()
 		{
-
 			//@Override
 			public void onClick(View v) {
-				// show help
-				AlertDialog.Builder builder = new AlertDialog.Builder(parent);
-				builder.setMessage("This is help!\nbla bla bla")
-				.setCancelable(false)
-				.setNeutralButton("Close", new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int id) {
-						dialog.cancel();
-					}
-				});
-
-				AlertDialog alert = builder.create();
-				// Title for AlertDialog
-				//alert.setTitle("Help");
-				// Icon for AlertDialog
-				alert.setIcon(R.drawable.icon);
-				alert.show();
+				startTimer();
+				parent.showDialog(OklientActivity.DIALOG_INFO_ID);
 			}
-
 		});
 
-		complaintButton = (Button) findViewById(R.id.button2);
-		complaintButton.setBackgroundResource(R.drawable.complaint_button_layers);
-		complaintButton.setText("");
+		complaintButton = (Button) findViewById(R.id.buttonComplaint);
 		complaintButton.setOnClickListener(new OnClickListener()
 		{
-
 			//@Override
 			public void onClick(View v) {
-				// send message to bosses 
-				/*TimerDialog dialog = new TimerDialog(parent);
-				//dialog.setContentView(R.layout.timer);
-				//TextProgressBar pb=(TextProgressBar)dialog.findViewById(R.id.progressBar1);
-				//pb.setText("15");
-				//dialog.getWindow().setLayout(LayoutParams.FILL_PARENT,
-	            //         LayoutParams.FILL_PARENT);
-				dialog.show(); 
-				 */
-
-				//if(true)return;//TODO
-				LinearLayout q1 = new LinearLayout(getContext());
-				q1.setOrientation(LinearLayout.HORIZONTAL);
-
-
-				LayoutParams params2 = new LayoutParams(LayoutParams.WRAP_CONTENT,
-						LayoutParams.WRAP_CONTENT);
-
-				//Theme.NoTitleBar.Fullscreen
-
-				Dialog dialog = new Dialog(parent, android.R.style.Theme_Translucent_NoTitleBar_Fullscreen/*, R.style.popupStyle*/); 
-/*
-				LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-				View v1=inflater.inflate(R.layout.complaint, q1);
-				View v2=inflater.inflate(R.layout.complaint_info, q1);
-
-				final ViewFlipper viewFlipper = new ViewFlipper(_context);
-
-				viewFlipper.addView(v1);
-				viewFlipper.addView(v2);
-
-				q1.addView(viewFlipper, params2);
-				dialog.setContentView(q1);
-*/
-				//dialog.setContentView(R.layout.complaint);
-				ComplaintLayout cl=new ComplaintLayout(getContext(),parent);
-				cl.startQuiz();
-				dialog.setContentView(cl);
-/*				Drawable drawable = getResources().getDrawable(R.drawable.background_complaint);
-				drawable.setAlpha(240);
-				dialog.getWindow().setBackgroundDrawable(drawable);
-*/				//dialog.getWindow().setBackgroundDrawableResource(R.drawable.background_complaint);
-				//dialog.getWindow().setLayout(LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT);
-				
-				WindowManager.LayoutParams lp = dialog.getWindow().getAttributes();  
-				lp.dimAmount=0.5f;  
-				dialog.getWindow().setAttributes(lp); 
-				dialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-				
-				dialog.show(); 
-				//*/
-				//final ViewFlipper viewFlipper = (ViewFlipper)parent.findViewById(R.id.viewFlipper);
-				//viewFlipper.showNext();
+				startTimer();
+				parent.showDialog(OklientActivity.DIALOG_COMPLAINT_ID);
 			}
-
 		});
 		
-		quitButton = (Button) this.findViewById(R.id.button3);
-		quitButton.setBackgroundResource(R.drawable.stop_button_layers);
-		quitButton.setText("");
+		quitButton = (Button) this.findViewById(R.id.buttonQuit);
 		quitButton.setOnClickListener(new OnClickListener()
 		{
-
 			//@Override
 			public void onClick(View v) {
-				n=-1;
-				mProgress.setProgress(0);
-				viewFlipper.removeAllViews();
-				//parent.q.initQuestionnaire();
-				//showNextScreen();
-				// show outro view
-				final ViewFlipper parentFlipper = (ViewFlipper)parent.findViewById(R.id.viewFlipper);
-				parentFlipper.showNext();
-				
-				stopQuiz();
-				
-				return;
+				quitQuiz(true);
 			}
-
 		});
 	}
-
 }

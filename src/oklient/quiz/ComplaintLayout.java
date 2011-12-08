@@ -36,7 +36,7 @@ import android.widget.TableRow.LayoutParams;
 
 public class ComplaintLayout extends LinearLayout {
 	final OklientActivity parent;
-
+	final Dialog dlg;
 	ComplaintMsgLayout   msg_view;
 	ComplaintInfoLayout  info_view;
 	ComplaintOutroLayout outro_view;
@@ -50,9 +50,9 @@ public class ComplaintLayout extends LinearLayout {
 	
 	View.OnClickListener click_listener;
 	
-	public ComplaintLayout(Context context, OklientActivity _parent) {
+	public ComplaintLayout(Context context, OklientActivity _parent, Dialog _dlg) {
 		super(context);
-		//_context=context;
+		dlg=_dlg;
 		parent=_parent;
 		initComponent();
 		
@@ -75,44 +75,34 @@ public class ComplaintLayout extends LinearLayout {
 	}
 	
 	public void stopQuiz(){
-
+/*
 		Answers res=new Answers();
 		Survey surv=new Survey();
 		surv.questionnaire=parent.q.id;
 		surv.created_at=TimeUtils.GetUTCdatetimeAsString();
 		
-		
-/*		
-		for(int i=0; i<parent.q.screens.size();i++){
-			Screen scr=parent.q.screens.get(i);
 			
-			if(!scr.getPassed())continue;
-			
-			for(int j=0;j<scr.questions.size();j++){
-				Question quest=scr.questions.get(j);
-				
-				for(int x=0;x<quest.answers.size();x++){
-					Answer answ=quest.answers.get(x);
-				
-				
-				surv.answers.add(answ);
-				}
-			}
-		}
-*/		
+		if(parent.complaint.screens.get(0).getPassed()){
 		surv.complaint=new Complaint();
 		surv.complaint.created_at=TimeUtils.GetUTCdatetimeAsString();
 		surv.complaint.body=parent.complaint.screens.get(0).questions.get(0).answers.get(0).value;
 		surv.complaint.title=parent.complaint.screens.get(0).questions.get(1).answers.get(0).value;
+		if(parent.complaint.screens.get(1).questions.get(0).answers.size()>0)
 		surv.complaint.name=parent.complaint.screens.get(1).questions.get(0).answers.get(0).value;
+		else surv.complaint.name="";
+		if(parent.complaint.screens.get(1).questions.get(1).answers.size()>0)
 		surv.complaint.contacts=parent.complaint.screens.get(1).questions.get(1).answers.get(0).value;
+		else surv.complaint.contacts="";
+		}
+		else
+			surv.complaint=null;
 		
 		res.surveis.add(surv);
 		
 		// send results
 		String xml_res=res.getComplaintXml();	
 		
-		parent.api.SendResults(xml_res);
+		parent.api.SendResults(xml_res);*/
 	}
 	
 	private void showPrevScreen() {
@@ -120,6 +110,13 @@ public class ComplaintLayout extends LinearLayout {
 		viewFlipper.setOutAnimation(getContext(), R.anim.view_transition_out_right);
 		viewFlipper.showPrevious();*/
 		/////////////////////////////////////
+		parent.quiz_view.startTimer();
+		
+		if(n==0){
+			dlg.dismiss();
+			return;
+		}
+		
 		View current_view=viewFlipper.getCurrentView();
 		
 		viewFlipper.setInAnimation(getContext(), R.anim.view_transition_in_right);
@@ -142,7 +139,7 @@ public class ComplaintLayout extends LinearLayout {
 		
 		Screen scr=parent.complaint.screens.get(n);
 		scr.setPassed(false); // clear prev data
-		prevButton.setEnabled(n>0);
+		//prevButton.setEnabled(n>0);
 		nextButton.setEnabled(!scr.questions.get(0).type.equals("single_choice"));
 		
 	}
@@ -152,6 +149,8 @@ public class ComplaintLayout extends LinearLayout {
 		viewFlipper.setOutAnimation(getContext(), R.anim.view_transition_out_left);
 		viewFlipper.showNext();
 */		/////////////////////////////////////////
+		parent.quiz_view.startTimer();
+		
 		ScreenLayout current_view=(ScreenLayout) viewFlipper.getCurrentView();
 		if(current_view!=null)current_view.updateFields(); // store data
 		
@@ -166,14 +165,15 @@ public class ComplaintLayout extends LinearLayout {
 			//parentFlipper.showNext();
 			//TODO quit
 			stopQuiz();
-			
+			dlg.dismiss();
+			parent.quiz_view.quitQuiz(false);
 			return;
 		} //TODO no more screens
 		
 		
 		Screen scr=parent.complaint.screens.get(n);
 		
-		prevButton.setEnabled(n>0);
+		//prevButton.setEnabled(n>0);
 		nextButton.setEnabled(!scr.questions.get(0).type.equals("single_choice"));
 		prevButton.setVisibility(scr.questions.get(0).type.equals("info")? INVISIBLE: VISIBLE);
 		nextButton.setVisibility(scr.questions.get(0).type.equals("info")? INVISIBLE: VISIBLE);

@@ -37,20 +37,24 @@ public class QuestionLayout_MultipleChoice extends QuestionLayout {
 			if(opt.meaning.equals("string")){
 				EditText edit=new EditText(getContext());
 				edit.setBackgroundResource(R.drawable.edit_text_layers);
-				edit.setHint("Other");
+				edit.setHeight(edit.getHeight());
+				edit.setPadding(15, 5, 15, 5);
+				edit.setTextSize(12);
+				edit.setHint(R.string.hint_custom);
 				edit.setMinimumWidth(200);
 				edit.setId(i);
-				ll.addView(edit, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
+				ll.addView(edit, new LayoutParams(/*LayoutParams.FILL_PARENT*/450, LayoutParams.WRAP_CONTENT));
 			}
 			else{	
 				CheckBox check = new CheckBox(getContext());
 				check.setButtonDrawable(R.drawable.checkbox_layers);
 				check.setBackgroundResource(R.drawable.checkbox_fortext);
-				check.setPadding(100, 5, 5, 5);
+				check.setPadding(70, 5, 5, 5);
 				check.setTextColor(Color.BLACK);
 				check.setText(opt.title);
+				check.setTextSize(10);
 				check.setId(i);
-				ll.addView(check, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
+				ll.addView(check, new LayoutParams(450/*LayoutParams.FILL_PARENT*/, LayoutParams.WRAP_CONTENT));
 			}
 		}
 

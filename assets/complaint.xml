@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<questionnaire scheme="complaint" accepts_complaints="false" id="complaint" logo="" welcome_screen="">
+  <screen hint="" title="Книга жалоб и предложений" id="1">
+    <question title="Опишите жалобу или предложение:" id="11" type="string" style="">
+    </question>
+    <question title="Кратко озаглавьте, пожалуйста:" id="12" type="string" style="">
+    </question>
+    <question title="Я хочу получить ответ на свою жалобу/предложение:" id="13" type="confirmation" style="">
+    </question>
+  </screen>
+  <screen hint="" title="Книга жалоб и предложений" id="2">
+    <question title="Ваше имя:" id="21" type="string" style="">
+    </question>
+    <question title="Телефон или e-mail:" id="22" type="string" style="">
+    </question>
+    <condition option_id="13_true"/>
+  </screen>
+  <screen hint="" title="Спасибо!" id="3">
+    <question title="В ближайшее время информация будет рассмотрена руководством" id="31" type="info" style="">
+    </question>
+  </screen>
+</questionnaire>
