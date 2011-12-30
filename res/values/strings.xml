@@ -17,4 +17,7 @@
     <string name="outro_content">Он поможет улучшить качество наших услуг.</string>
     <string name="button_close">Закрыть</string>
     <string name="intro_sync_msg">Синхронизация с сервером...</string>
+    <string name="options_server">Сервер:</string>
+    <string name="options_sync">Период синхронизации, мин:</string>
+    <string name="options_devid">ID устройства:</string>
 </resources>

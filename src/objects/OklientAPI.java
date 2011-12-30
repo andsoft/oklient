@@ -21,6 +21,9 @@ import org.apache.http.entity.FileEntity;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.ByteArrayBuffer;
 import org.apache.http.util.EntityUtils;
@@ -46,7 +49,17 @@ public class OklientAPI {
 		strGetQuestURL=strRegURL+"/"+strDeviceId+"/questionnaire.xml";
 		strSendResultsURL=strRegURL+"/"+strDeviceId+"/surveys";
 		
-		httpclient = new DefaultHttpClient();
+		HttpParams httpParameters = new BasicHttpParams();
+		// Set the timeout in milliseconds until a connection is established.
+		int timeoutConnection = 3000;
+		HttpConnectionParams.setConnectionTimeout(httpParameters, timeoutConnection);
+		// Set the default socket timeout (SO_TIMEOUT) 
+		// in milliseconds which is the timeout for waiting for data.
+		int timeoutSocket = 5000;
+		HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);
+
+		httpclient = new DefaultHttpClient(httpParameters);
+		//httpclient = new DefaultHttpClient();
 	}
 	
 	// Register new device on the server

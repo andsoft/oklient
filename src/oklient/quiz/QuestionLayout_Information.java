@@ -18,19 +18,14 @@ import android.widget.TableRow.LayoutParams;
 //import android.widget.TableLayout.LayoutParams;
 
 public class QuestionLayout_Information extends QuestionLayout {
-	private View.OnClickListener click_listener;
 	
-	public QuestionLayout_Information(Context context, Question quest, View.OnClickListener l) {
-		super(context, quest);
-		click_listener=l;
-		initComponent2();
+	public QuestionLayout_Information(Context context, Question quest, View.OnClickListener l, OnAnswerListener al) {
+		super(context, quest, l, al);
     }
 	
 	@Override
 	protected void initComponent() {
-	}
-	
-	protected void initComponent2() {
+
 		this.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL);
 		
 		//this.setLayoutParams(new TableRow.LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
@@ -61,6 +56,7 @@ public class QuestionLayout_Information extends QuestionLayout {
 					//@Override
 					public void onClick(View v) {
 						click_listener.onClick(v);
+						onAnswerListener.onAnswer(question);
 					}
 
 				});

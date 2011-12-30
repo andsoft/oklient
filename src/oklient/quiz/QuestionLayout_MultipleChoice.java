@@ -6,19 +6,24 @@ import objects.Question;
 import objects.TimeUtils;
 import android.content.Context;
 import android.graphics.Color;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TableRow;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TableLayout.LayoutParams;
 
 public class QuestionLayout_MultipleChoice extends QuestionLayout {
 
 	private LinearLayout ll;
 	
-	public QuestionLayout_MultipleChoice(Context context, Question quest) {
-        super(context, quest);        
+	public QuestionLayout_MultipleChoice(Context context, Question quest, View.OnClickListener l, OnAnswerListener al) {
+        super(context, quest, l, al);        
     }
 	
 	@Override
@@ -43,6 +48,14 @@ public class QuestionLayout_MultipleChoice extends QuestionLayout {
 				edit.setHint(R.string.hint_custom);
 				edit.setMinimumWidth(200);
 				edit.setId(i);
+				edit.addTextChangedListener(new TextWatcher(){
+					public void afterTextChanged(Editable s) {
+						onAnswerListener.onAnswer(question);
+					}
+					public void beforeTextChanged(CharSequence s, int start, int count, int after){}
+					public void onTextChanged(CharSequence s, int start, int before, int count){}
+				}); 
+				
 				ll.addView(edit, new LayoutParams(/*LayoutParams.FILL_PARENT*/450, LayoutParams.WRAP_CONTENT));
 			}
 			else{	
@@ -54,6 +67,12 @@ public class QuestionLayout_MultipleChoice extends QuestionLayout {
 				check.setText(opt.title);
 				check.setTextSize(10);
 				check.setId(i);
+				check.setOnCheckedChangeListener( new OnCheckedChangeListener() {
+					public void onCheckedChanged (CompoundButton buttonView, boolean isChecked){
+						onAnswerListener.onAnswer(question);
+					}
+				});
+				
 				ll.addView(check, new LayoutParams(450/*LayoutParams.FILL_PARENT*/, LayoutParams.WRAP_CONTENT));
 			}
 		}

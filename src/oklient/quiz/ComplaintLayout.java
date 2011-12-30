@@ -49,6 +49,7 @@ public class ComplaintLayout extends LinearLayout {
 	int n=-1;
 	
 	View.OnClickListener click_listener;
+	private OnAnswerListener answer_listener;
 	
 	public ComplaintLayout(Context context, OklientActivity _parent, Dialog _dlg) {
 		super(context);
@@ -62,9 +63,19 @@ public class ComplaintLayout extends LinearLayout {
 			//@Override
 			public void onClick(View v) {
 				
-				showNextScreen();
+				//showNextScreen();
 			}
 
+		};
+		
+		answer_listener=new OnAnswerListener() {
+			//@Override
+			public void onAnswer(Question quest) {	
+				if(quest.type.equals("single_choice") || quest.type.equals("info"))
+					showNextScreen();
+				//else
+				//	startAnimationTimer();
+			}
 		};
 	}
 	
@@ -178,7 +189,7 @@ public class ComplaintLayout extends LinearLayout {
 		prevButton.setVisibility(scr.questions.get(0).type.equals("info")? INVISIBLE: VISIBLE);
 		nextButton.setVisibility(scr.questions.get(0).type.equals("info")? INVISIBLE: VISIBLE);
 		
-		ScreenLayout screen_layout=new ScreenLayout(getContext(), scr, click_listener);
+		ScreenLayout screen_layout=new ScreenLayout(getContext(), scr, click_listener, answer_listener);
 		viewFlipper.addView(screen_layout);
 		viewFlipper.setInAnimation(getContext(), R.anim.view_transition_in_left);
 		viewFlipper.setOutAnimation(getContext(), R.anim.view_transition_out_left);
@@ -198,58 +209,28 @@ public class ComplaintLayout extends LinearLayout {
 		//this.setBackgroundResource(R.drawable.background_complaint);
 		
 		viewFlipper = (ViewFlipper)findViewById(R.id.viewFlipper1);
-/*		
-		for(int i=0;i<parent.complaint.screens.size();i++) {
-			Screen scr=parent.complaint.screens.get(i);
-	
-			ScreenLayout screen_layout=new ScreenLayout(getContext(), scr, click_listener);
-			viewFlipper.addView(screen_layout);
-		}*/
-/*		
-		msg_view = new ComplaintMsgLayout(getContext(), this);
-		info_view = new ComplaintInfoLayout(getContext(), this);
-		outro_view = new ComplaintOutroLayout(getContext(), this);
 		
-		viewFlipper.addView(msg_view);
-		viewFlipper.addView(info_view);
-		viewFlipper.addView(outro_view);	
-*/		
 		nextButton = (Button) this.findViewById(R.id.buttonNext);
-		nextButton.setBackgroundResource(R.drawable.forward_button_layers);
-		nextButton.setText("");
 		//nextButton.setSoundEffectsEnabled(true);
 		nextButton.setOnClickListener(new OnClickListener()
 		{
-
 			//@Override
 			public void onClick(View v) {
 				//nextButton.playSoundEffect(SoundEffectConstants.NAVIGATION_RIGHT);
-				viewFlipper.setInAnimation(getContext(), R.anim.view_transition_in_left);
-				viewFlipper.setOutAnimation(getContext(), R.anim.view_transition_out_left);
-				
 				showNextScreen();
 			}
-
 		});
 
 		prevButton = (Button) this.findViewById(R.id.buttonPrev);
-		prevButton.setBackgroundResource(R.drawable.back_button_layers);
-		prevButton.setText("");
 		//prevButton.setSoundEffectsEnabled(true);
 		prevButton.setOnClickListener(new OnClickListener()
 		{
-
 			//@Override
 			public void onClick(View v) {
 				//prevButton.playSoundEffect(SoundEffectConstants.CLICK);
-				viewFlipper.setInAnimation(getContext(), R.anim.view_transition_in_right);
-				viewFlipper.setOutAnimation(getContext(), R.anim.view_transition_out_right);
-				
 				showPrevScreen();
 			}
-
 		});
-
 	}
 
 }

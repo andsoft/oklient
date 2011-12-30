@@ -27,13 +27,14 @@ public class QuestionLayout_Range extends QuestionLayout implements SeekBar.OnSe
 	private int range_default;
 	private TextView text, value, hint;
 	
-	public QuestionLayout_Range(Context context, Question quest) {
-        super(context, quest);
+	public QuestionLayout_Range(Context context, Question quest, View.OnClickListener l, OnAnswerListener al) {
+        super(context, quest, l, al);
        
     }
 	
 	public void onProgressChanged(SeekBar seekBar, int progress, boolean fromTouch) {
 		value.setText(""+progress);
+		if(fromTouch)onAnswerListener.onAnswer(question);
 	}
 
 	public void onStartTrackingTouch(SeekBar seekBar) {
@@ -53,7 +54,7 @@ public class QuestionLayout_Range extends QuestionLayout implements SeekBar.OnSe
 		
 		LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View bar=inflater.inflate(R.layout.complaint_msg, null);
-		SeekBar sb=(SeekBar) bar.findViewById(R.id.seekBar1);
+		/*SeekBar */sbar=(SeekBar) bar.findViewById(R.id.seekBar1);
 		
 		//TextView text, value, hint;
 		text=new TextView(getContext()); 
@@ -90,24 +91,23 @@ public class QuestionLayout_Range extends QuestionLayout implements SeekBar.OnSe
 			range_default=Integer.valueOf(question.range_default);
 		int max=(range_max-range_min)/range_step;
 		int def=(range_default-range_min)/range_step;
-		
+		/*
 		//SeekBar sbar;
 		sbar=new SeekBar(getContext());
-		//sb1.setMinimumWidth(200);
 		sbar.setLayoutParams(new TableRow.LayoutParams(200,LayoutParams.WRAP_CONTENT));
 		
 		sbar.setMinimumHeight(4);
 		
-		sbar.setProgressDrawable(getResources().getDrawable(R.drawable.scale_full/*seekbar_layers*/));
+		sbar.setProgressDrawable(getResources().getDrawable(R.drawable.scale_full));
 		sbar.setThumb(getResources().getDrawable(R.drawable.slider));
 		sbar.setPadding(20, 0, 20,0);
 		sbar.setMax(max); // TODO
 		sbar.setProgress(def);
-		//sb1.set
+		*/
 		
-		sb.setOnSeekBarChangeListener(this);
-		sb.setMax(max); // TODO
-		sb.setProgress(def);
+		sbar.setOnSeekBarChangeListener(this);
+		sbar.setMax(max); // TODO
+		sbar.setProgress(def);
 		
 		
 		bar.setLayoutParams(new TableRow.LayoutParams(600,LayoutParams.WRAP_CONTENT));

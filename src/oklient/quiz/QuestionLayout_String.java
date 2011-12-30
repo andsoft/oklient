@@ -5,7 +5,10 @@ import objects.Question;
 import objects.TimeUtils;
 import android.content.Context;
 import android.graphics.Color;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -16,9 +19,8 @@ public class QuestionLayout_String extends QuestionLayout {
 	private TextView text;
 	private EditText edit;
 	
-	public QuestionLayout_String(Context context, Question quest) {
-        super(context, quest);
-        
+	public QuestionLayout_String(Context context, Question quest, View.OnClickListener l, OnAnswerListener al) {
+        super(context, quest, l, al);
     }
 	
 	@Override
@@ -36,6 +38,13 @@ public class QuestionLayout_String extends QuestionLayout {
 		edit.setHeight(edit.getHeight());
 		edit.setPadding(15, 5, 15, 5);
 		edit.setTextSize(12);
+		edit.addTextChangedListener(new TextWatcher(){
+			public void afterTextChanged(Editable s) {
+				onAnswerListener.onAnswer(question);
+			}
+			public void beforeTextChanged(CharSequence s, int start, int count, int after){}
+			public void onTextChanged(CharSequence s, int start, int before, int count){}
+		}); 
 		
 		TableRow.LayoutParams edit_lp=new TableRow.LayoutParams(/*LayoutParams.WRAP_CONTENT*/450, LayoutParams.WRAP_CONTENT);
 		edit_lp.leftMargin=10;

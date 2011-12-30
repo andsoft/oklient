@@ -18,7 +18,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            android:text="Next" />
+            android:background="@drawable/forward_button_layers"
+            android:text="" />
 
         <Button
             android:id="@+id/buttonPrev"
@@ -26,7 +27,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:text="Prev" />
+            android:background="@drawable/back_button_layers"
+            android:text="" />
 
     </RelativeLayout>
 

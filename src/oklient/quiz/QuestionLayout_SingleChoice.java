@@ -16,12 +16,10 @@ import android.widget.TableLayout.LayoutParams;
 
 public class QuestionLayout_SingleChoice extends QuestionLayout {
 	
-	private View.OnClickListener click_listener;
 	private int option_id;
 	
-	public QuestionLayout_SingleChoice(Context context, Question quest, View.OnClickListener l) {
-		super(context, quest);
-		click_listener=l;
+	public QuestionLayout_SingleChoice(Context context, Question quest, View.OnClickListener l, OnAnswerListener al) {
+		super(context, quest, l, al);
 		option_id=-1;
 		initComponent2();
     }
@@ -57,6 +55,7 @@ public class QuestionLayout_SingleChoice extends QuestionLayout {
 					public void onClick(View v) {
 						option_id=v.getId();
 						click_listener.onClick(v);
+						onAnswerListener.onAnswer(question);
 					}
 
 				});
@@ -87,6 +86,7 @@ public class QuestionLayout_SingleChoice extends QuestionLayout {
 					public void onClick(View v) {
 						option_id=v.getId();
 						click_listener.onClick(v);
+						onAnswerListener.onAnswer(question);
 					}
 
 				});

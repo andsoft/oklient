@@ -7,7 +7,10 @@ import objects.TimeUtils;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.TableRow.LayoutParams;
@@ -16,8 +19,8 @@ public class QuestionLayout_Confirmation extends QuestionLayout {
 	
 	private CheckBox check;
 	
-	public QuestionLayout_Confirmation(Context context, Question quest) {
-        super(context, quest);
+	public QuestionLayout_Confirmation(Context context, Question quest, View.OnClickListener l, OnAnswerListener al) {
+        super(context, quest, l, al);
    
     }
 	
@@ -34,13 +37,18 @@ public class QuestionLayout_Confirmation extends QuestionLayout {
 		check.setTextColor(Color.BLACK);
 		check.setText(question.title);
 		check.setTextSize(10);
-
-		LayoutParams params2 = new LayoutParams(LayoutParams.WRAP_CONTENT,
-				LayoutParams.WRAP_CONTENT);
-
+		check.setOnCheckedChangeListener( new OnCheckedChangeListener() {
+			public void onCheckedChanged (CompoundButton buttonView, boolean isChecked){
+				onAnswerListener.onAnswer(question);
+			}
+		});
+		
+		TableRow.LayoutParams edit_lp=new TableRow.LayoutParams(/*LayoutParams.WRAP_CONTENT*/450, LayoutParams.WRAP_CONTENT);
+		edit_lp.leftMargin=10;
+		edit_lp.rightMargin=10;
 
 		this.addView(new TextView(getContext()), new TableRow.LayoutParams(250, LayoutParams.WRAP_CONTENT));
-		this.addView(check, new TableRow.LayoutParams(450/*LayoutParams.FILL_PARENT*/, LayoutParams.WRAP_CONTENT));
+		this.addView(check, edit_lp);
 		this.addView(new TextView(getContext()), new TableRow.LayoutParams(250, LayoutParams.WRAP_CONTENT));
 	}
 

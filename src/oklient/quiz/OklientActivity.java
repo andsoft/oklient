@@ -1,29 +1,33 @@
 package oklient.quiz;
 
 
-import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.UUID;
 
 import objects.OklientAPI;
 import objects.Questionnaire;
-import objects.Screen;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings.Secure;
 import android.telephony.TelephonyManager;
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.EditText;
+import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 public class OklientActivity extends Activity {
@@ -43,6 +47,7 @@ public class OklientActivity extends Activity {
 	protected static final String PREFS_FILE = "preferences.xml";
     protected static final String PREFS_DEVICE_ID = "device_id";
     protected static final String PREFS_SERVER_ADDR = "server_addr";
+    protected static final String PREFS_SYNC_PERIOD = "sync_period";
     protected static final String PREFS_REGISTERED = "registered";
     
 	private boolean m_bRegistered=false;
@@ -51,8 +56,9 @@ public class OklientActivity extends Activity {
 	
 	private String m_strServer; 
 	private String m_strDeviceId;
+	private int    m_nSyncPeriod; // in minutes
 	
-	static final int m_nSyncPeriod_sec=60;
+	//static final int m_nSyncPeriod_sec=60;
 	private Handler mHandler = new Handler();
 	//
 	private Runnable mSyncTaskRunnable = new Runnable() 
@@ -75,6 +81,11 @@ public class OklientActivity extends Activity {
 				e.printStackTrace();
 			}
 */			
+			// check if network is available
+			if(!isOnline()) {
+				return null;
+			}
+			
 			// register device 
 			if(!m_bRegistered) {	
 				m_bRegistered=api.Register(); // TODO dont work!!!!
@@ -124,7 +135,7 @@ public class OklientActivity extends Activity {
 			m_bReady=true;
 			
 			// schedule next sync
-			mHandler.postDelayed(mSyncTaskRunnable, m_nSyncPeriod_sec*1000) ;
+			mHandler.postDelayed(mSyncTaskRunnable, m_nSyncPeriod*60*1000) ;
 		}
 	}
 
@@ -136,7 +147,10 @@ public class OklientActivity extends Activity {
 			questionnaire.parseFile(getFilesDir()+"/"+"quiz");
 		}
 		
-		if(questionnaire.id==null) return; // TODO add message that no quiz available
+		if(questionnaire.id==null) {
+			Toast.makeText(this, "Не удалось загрузить анкету!", Toast.LENGTH_SHORT).show();
+			return; // TODO add message that no quiz available
+		}
 		
 		questionnaire.initQuestionnaire();
 		complaint.initQuestionnaire();
@@ -190,6 +204,8 @@ public class OklientActivity extends Activity {
 		m_strServer = prefs.getString(PREFS_SERVER_ADDR, "oklient-dev.heroku.com" );
 		
 		m_bRegistered = prefs.getBoolean(PREFS_REGISTERED, false );
+		
+		m_nSyncPeriod = prefs.getInt(PREFS_SYNC_PERIOD, 1);
 	}
 
 	/** Called when the activity is first created. */
@@ -223,9 +239,10 @@ public class OklientActivity extends Activity {
 		} 
 			
 		// load preferences
-		m_bRegistered=true; // TODO load from preferences
-		m_strServer="http://oklient-dev.heroku.com";  // TODO from prefs 
+		m_bRegistered=true; 
+		m_strServer="http://oklient-dev.heroku.com";
 		m_strDeviceId="andreev_123";
+		m_nSyncPeriod=1;
 		loadPrefs();
 		
 		// create oklient api helper
@@ -278,7 +295,26 @@ public class OklientActivity extends Activity {
 	static final int DIALOG_INFO_ID = 0;
 	static final int DIALOG_TIMER_ID = 1;
 	static final int DIALOG_COMPLAINT_ID = 2;
+	static final int DIALOG_OPTIONS_ID = 3;
 
+	@Override
+	protected void onPrepareDialog(int id, Dialog dialog) {
+	    switch (id) {
+	        case DIALOG_OPTIONS_ID:
+	            AlertDialog categoryDetail = (AlertDialog)dialog;
+	            EditText etServer = (EditText)categoryDetail.findViewById(R.id.editServer);
+	            etServer.setText(m_strServer);
+	            EditText etSyncTime = (EditText)categoryDetail.findViewById(R.id.editSyncTime);
+	            etSyncTime.setText(Integer.toString(m_nSyncPeriod));// todo
+	            EditText etDeviceId = (EditText)categoryDetail.findViewById(R.id.editDeviceId);
+	            etDeviceId.setText(m_strDeviceId);
+	            break;
+	        default:
+	            break;
+	    }
+	}
+	
+	@Override
 	protected Dialog onCreateDialog(int id) {
 		Dialog dialog;
 		switch(id) {
@@ -298,9 +334,82 @@ public class OklientActivity extends Activity {
 			dialog.getWindow().setAttributes(lp); 
 			dialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
 			break;
+		case DIALOG_OPTIONS_ID:
+            LayoutInflater li = LayoutInflater.from(this);
+            View categoryDetailView = li.inflate(R.layout.options, null);
+            
+            AlertDialog.Builder categoryDetailBuilder = new AlertDialog.Builder(this);
+            categoryDetailBuilder.setTitle("Options");
+            categoryDetailBuilder.setView(categoryDetailView);
+            AlertDialog categoryDetail = categoryDetailBuilder.create();
+            
+            categoryDetail.setButton("OK", new DialogInterface.OnClickListener(){
+            
+            //@Override
+            public void onClick(DialogInterface dialog, int which) {
+                AlertDialog categoryDetail = (AlertDialog)dialog;
+            	EditText etServer = (EditText)categoryDetail.findViewById(R.id.editServer);	            
+	            EditText etSyncTime = (EditText)categoryDetail.findViewById(R.id.editSyncTime);
+	            //EditText etDeviceId = (EditText)categoryDetail.findViewById(R.id.editDeviceId);
+	            
+	            m_bRegistered=false; // force to re-register. TODO only if server changed
+	            m_strServer=etServer.getText().toString();
+	            m_nSyncPeriod=Integer.parseInt(etSyncTime.getText().toString());
+	            if(m_nSyncPeriod<1) m_nSyncPeriod=1;
+	            else if(m_nSyncPeriod>120)m_nSyncPeriod=120;
+	            //m_strDeviceId=etDeviceId.getText().toString(); 
+	            
+	            final SharedPreferences prefs = getSharedPreferences( PREFS_FILE, 0);
+	            SharedPreferences.Editor editor=prefs.edit();
+	            editor.putBoolean(PREFS_REGISTERED, m_bRegistered);
+	            editor.putString(PREFS_SERVER_ADDR, m_strServer);
+	            editor.putInt(PREFS_SYNC_PERIOD, m_nSyncPeriod);
+	            //editor.putString(PREFS_DEVICE_ID, m_strDeviceId);
+	            
+	            editor.commit();
+	            
+	            // TODO reinit api cause server changed;
+            }});
+            
+            categoryDetail.setButton2("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                return;
+            }}); 
+            
+            dialog=categoryDetail;
+            break;
 		default:
 			dialog = null;
 		}
 		return dialog;
+	}
+	
+	@Override
+    public void onUserInteraction()
+    {
+        super.onUserInteraction();
+        // TODO uncomment
+        //quiz_view.startTimer(); // reset timer
+    }
+	
+	//@Override
+	public boolean onKeyUp(int keyCode, KeyEvent event)
+    {
+        if (keyCode == KeyEvent.KEYCODE_MENU)
+        {
+        	showDialog(OklientActivity.DIALOG_OPTIONS_ID);
+        	return true;
+        }
+
+        return super.onKeyUp(keyCode, event);
+    }
+	
+	public boolean isOnline() {
+	    ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+	    NetworkInfo netInfo = cm.getActiveNetworkInfo();
+	    if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+	        return true;
+	    }
+	    return false;
 	}
 }

@@ -15,6 +15,9 @@ import android.content.Context;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -35,19 +38,37 @@ public class QuizLayout extends LinearLayout {
 	private Button quitButton;
 	
 	private View.OnClickListener click_listener;
-	
+	private OnAnswerListener answer_listener;
+	final Animation animation;
 	int n=-1;
 	
 	public QuizLayout(Context context, OklientActivity _parent) {
 		super(context);
 		
 		parent=_parent;
+		
+		animation = new AlphaAnimation(1, 0); // Change alpha from fully visible to invisible
+	    animation.setDuration(500); // duration - half a second
+	    animation.setInterpolator(new LinearInterpolator()); // do not alter animation rate
+	    animation.setRepeatCount(Animation.INFINITE); // Repeat animation infinitely
+	    animation.setRepeatMode(Animation.REVERSE); // Reverse animation at the end so the button will fade back in
+
 		initComponent();
 		
 		click_listener=new OnClickListener() {
 			//@Override
 			public void onClick(View v) {	
-				showNextScreen();
+				//showNextScreen();
+			}
+		};
+		
+		answer_listener=new OnAnswerListener() {
+			//@Override
+			public void onAnswer(Question quest) {	
+				if(quest.type.equals("single_choice") || quest.type.equals("info"))
+					showNextScreen();
+				else
+					startAnimationTimer();
 			}
 		};
 	}
@@ -68,22 +89,38 @@ public class QuizLayout extends LinearLayout {
        }
     };
 	
-    public void startTimer(){
+    private Runnable mAnimateTask = new Runnable() {
+        public void run() {
+        	nextButton.startAnimation(animation);
+        }
+     };
+    
+    public void startTimer() {
     	mHandler.removeCallbacks(mUpdateTimeTask);
         mHandler.postDelayed(mUpdateTimeTask, (30000)) ;
 	}
 	
-	public void stopTimer(){
+	public void stopTimer() {
 		mHandler.removeCallbacks(mUpdateTimeTask);
 	}
-    
-	public void startQuiz(){
+	
+	public void startAnimationTimer() {
+    	mHandler.removeCallbacks(mAnimateTask);
+        mHandler.postDelayed(mAnimateTask, (5000)) ;
+	}
+	
+	public void stopAnimationTimer() {
+		mHandler.removeCallbacks(mAnimateTask);
+	}
+	
+	public void startQuiz() {
 		imViewLogo.setImageBitmap(parent.bmImg); // set image cause it can be updated in synctask
 		mProgress.setMax(parent.questionnaire.screens.size());
+		complaintButton.setVisibility(parent.questionnaire.accepts_complaints.equals("true")?VISIBLE:INVISIBLE);
 		showNextScreen();
 	}
 	
-	public void stopQuiz(){
+	public void stopQuiz() {
 		
 		Answers res=new Answers();
 		Survey surv=new Survey();
@@ -167,6 +204,9 @@ public class QuizLayout extends LinearLayout {
 	
 	private void showPrevScreen() {
 		startTimer();
+		stopAnimationTimer();
+		nextButton.clearAnimation();
+		//startAnimationTimer(); // maybe cause already have answers in previous screen 
 		
 		View current_view=viewFlipper.getCurrentView();
 		
@@ -198,6 +238,8 @@ public class QuizLayout extends LinearLayout {
 	
 	private void showNextScreen() {
 		startTimer();
+		stopAnimationTimer();
+		nextButton.clearAnimation();
 		
 		ScreenLayout current_view=(ScreenLayout) viewFlipper.getCurrentView();
 		if(current_view!=null)current_view.updateFields(); // store data
@@ -219,14 +261,14 @@ public class QuizLayout extends LinearLayout {
 		
 		mProgress.setProgress(n);
 		
-		ScreenLayout screen_layout=new ScreenLayout(getContext(), scr, click_listener);
+		ScreenLayout screen_layout=new ScreenLayout(getContext(), scr, click_listener, answer_listener);
 		viewFlipper.addView(screen_layout);
 		viewFlipper.setInAnimation(getContext(), R.anim.view_transition_in_left);
 		viewFlipper.setOutAnimation(getContext(), R.anim.view_transition_out_left);
 		viewFlipper.showNext();
 
 	}
-
+	
 	private void initComponent() {
 		LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		inflater.inflate(R.layout.quiz, this);
@@ -238,7 +280,7 @@ public class QuizLayout extends LinearLayout {
 		mProgress.setMax(100/*parent.q.screens.size()*/); // will be changed on startquiz
 		
 		viewFlipper = (ViewFlipper)findViewById(R.id.viewFlipper);
-				
+			    
 		nextButton = (Button) this.findViewById(R.id.buttonNext);
 		nextButton.setOnClickListener(new OnClickListener()
 		{
@@ -283,7 +325,7 @@ public class QuizLayout extends LinearLayout {
 		{
 			//@Override
 			public void onClick(View v) {
-				quitQuiz(true);
+				quitQuiz(false);
 			}
 		});
 	}

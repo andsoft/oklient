@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    <PreferenceCategory android:key="cat_general" android:title="General">
+        <EditTextPreference android:key="server_addr" android:title="Server"/>
+    </PreferenceCategory>
+
+    
+
+</PreferenceScreen>

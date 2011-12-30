@@ -19,11 +19,13 @@ public class ScreenLayout extends LinearLayout/*TableLayout*/ {
     private Screen screen;
     private View.OnClickListener click_listener;
     private List<QuestionLayout> quest_layouts;
+    private OnAnswerListener answer_listener;
     
-	public ScreenLayout(Context context, Screen scr, View.OnClickListener l) {
+	public ScreenLayout(Context context, Screen scr, View.OnClickListener l, OnAnswerListener al) {
 		super(context);
 		screen=scr;
 		click_listener=l;
+		answer_listener=al;
 		initComponent();
 	}
 
@@ -64,22 +66,22 @@ public class ScreenLayout extends LinearLayout/*TableLayout*/ {
 			QuestionLayout q_layout=null;
 			
 			if(quest.type.equals("single_choice")){
-				q_layout = new QuestionLayout_SingleChoice(getContext(), quest, click_listener);	
+				q_layout = new QuestionLayout_SingleChoice(getContext(), quest, click_listener, answer_listener);	
 			}
 			else if(quest.type.equals("multiple_choice")){
-				q_layout = new QuestionLayout_MultipleChoice(getContext(), quest);
+				q_layout = new QuestionLayout_MultipleChoice(getContext(), quest, click_listener, answer_listener);
 			}
 			else if(quest.type.equals("range")){
-				q_layout = new QuestionLayout_Range(getContext(), quest);
+				q_layout = new QuestionLayout_Range(getContext(), quest, click_listener, answer_listener);
 			}
 			else if(quest.type.equals("string")){
-				q_layout = new QuestionLayout_String(getContext(), quest);
+				q_layout = new QuestionLayout_String(getContext(), quest, click_listener, answer_listener);
 			}
 			else if(quest.type.equals("confirmation")){
-				q_layout = new QuestionLayout_Confirmation(getContext(), quest);
+				q_layout = new QuestionLayout_Confirmation(getContext(), quest, click_listener, answer_listener);
 			}
 			else if(quest.type.equals("info")){
-				q_layout = new QuestionLayout_Information(getContext(), quest, click_listener);	
+				q_layout = new QuestionLayout_Information(getContext(), quest, click_listener, answer_listener);	
 			}
 			//q_layout.setBackgroundColor(Color.BLUE);
 			TableRow.LayoutParams q_lp=new TableRow.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
